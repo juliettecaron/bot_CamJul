@@ -1,2 +1,3 @@
 discord.py
 giphy_client
+yaml
