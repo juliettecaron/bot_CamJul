@@ -17,7 +17,7 @@ api = giphy_client.DefaultApi()
 
 help = "Utilisation du bot : \n- Pour des informations sur les matières/devoirs : !devoirs <niveau> <matiere>"
 
-with open("devoirs.yaml", 'r', encoding="utf-8") as stream:
+with open("../files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 	devoirs = yaml.safe_load(stream)
 
 corres_mat = {r"python|(langages? de )?scripts?" : "langages de script", r"fouilles?( de textes?)?" : "fouille de texte", "lexico" : "lexicologie", r"mod(é|e)l(isation)?" : "modelisation"}
@@ -80,11 +80,11 @@ async def infos_cours(ctx, *args):
 
 list_games = []
 quiz = Quiz()
-quiz.add_questions("questions.yaml")  
+quiz.add_questions("../files/questions.yaml")  
 list_games.append(quiz)
 
 anagramme = Anagramme()
-anagramme.add_voc_anag("mots.txt")
+anagramme.add_voc_anag("../files/mots.txt")
 list_games.append(anagramme)
 
 @bot.command(name = 'anag')
