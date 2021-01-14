@@ -139,7 +139,7 @@ with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, commande=None, type_info=None):
-	print("oui je suis la avec vous")
+	await ctx.send("oui je suis la avec vous")
 	if not commande and not type_info:
 		await ctx.send(help_cpp)
 
