@@ -32,12 +32,12 @@ class Quiz(Game) :
 		with open (fic,"r",encoding="utf-8") as fic_questions :
 			self.questions.update(yaml.safe_load(fic_questions))
 
-	def create_question(self) :
+	def create_question(self, ) :
 		self.question = random.choice(list(self.questions.keys()))
-		self.answer = self.questions[self.question]
+		self.answer = self.questions[self.question].lower()
 
 				  
-class Anagramme(Game) :
+class Anagram(Game) :
 
 	def __init__(self) :
 		Game.__init__(self)

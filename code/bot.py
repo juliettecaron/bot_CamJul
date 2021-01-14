@@ -21,7 +21,7 @@ help = "Utilisation du bot : \n- Pour des informations sur les matières/devoirs
 with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 	devoirs = yaml.safe_load(stream)
 
-corres_mat = {r"python|(langages? de )?scripts?" : "langages de script", r"fouilles?( de textes?)?" : "fouille de texte", "lexico" : "lexicologie", r"mod(é|e)l(isation)?" : "modelisation"}
+corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte", "lexico" : "lexicologie", r"mod(é|e)l(isation)?s?\b" : "modelisation"}
 corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
 
 async def search_gifs(keyword):
@@ -35,47 +35,40 @@ async def search_gifs(keyword):
 	return gif[0].url
 
 @bot.command(name = 'devoirs')
-async def infos_cours(ctx, *args):
-	rep_niveaux = f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help}"
-	if not args :
+async def infos_cours(ctx, niv=None, mat=None):
+
+	if not niv and not mat :
 		await ctx.send(help)
-	else :
-		niv = args[0].lower()
+
+	if niv :
+		niv = niv.lower()
 		for exp in corres_niv : 
 			if re.search(exp,niv) :
 				niv = corres_niv[exp]
-	if len(args) == 1 :
 		if niv in devoirs :
 			if devoirs[niv] == None :
-				await ctx.send("Aucune matière enregistrée pour ce niveau (pour le moment !)\n\nHarcelez JMD pour plus d'informations.")
+				await ctx.send("Aucune matière enregistrée pour le niveau {niv} (pour le moment !)\n\nHarcelez JMD pour plus d'informations.")
 				gif = await search_gifs("oops")
-				await ctx.send(gif)				 
+				await ctx.send(gif)
+
+			elif mat :
+				mat = mat.lower()
+				for exp in corres_mat : 
+					if re.search(exp,mat) :
+						mat = corres_mat[exp]
+				if mat in devoirs[niv] :
+					if devoirs[niv][mat] == None :
+						await ctx.send("Aucun devoir enregistré pour ce cours.")
+						gif = await search_gifs("lucky")
+						await ctx.send(gif)
+					else :
+						for dev in devoirs[niv][mat] :
+							await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
 			else :
 				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
 		else : 
-			await ctx.send(rep_niveaux)
-	if len(args) > 1 :
-		mat = args[1].lower()
-		for exp in corres_mat : 
-			if re.search(exp,mat) :
-				mat = corres_mat[exp]
-	if len(args) == 2 :
-		if niv in devoirs :
-			if mat in devoirs[niv] :
-				if devoirs[niv][mat] == None :
-					await ctx.send("Aucun devoir enregistré pour ce cours.")
-					gif = await search_gifs("lucky")
-					await ctx.send(gif)
-				else :
-					for dev in devoirs[niv][mat] :
-						await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
-			else :
-				await ctx.send(f"{mat} Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
-		else :
-			await ctx.send(rep_niveaux)
-			
-	if len(args) > 2 :
-		await ctx.send(f"Trop d'aguments.\n{help}")
+			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help}")
+
 
 #------------------------------
 
@@ -84,18 +77,20 @@ quiz = Quiz()
 quiz.add_questions("files/questions.yaml")  
 list_games.append(quiz)
 
-anagramme = Anagramme()
-anagramme.add_voc_anag("files/mots.txt")
-list_games.append(anagramme)
+anagram = Anagram()
+anagram.add_voc_anag("files/mots.txt")
+list_games.append(anagram)
+
+corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
 
 @bot.command(name = 'anag')
 async def anag_game(ctx):
-	if anagramme.on == True : 
-		await ctx.send(f"Déjà en cours : de quel mot >>> {anagramme.anag} <<< est-il l'anagramme ?")
+	if anagram.on == True : 
+		await ctx.send(f"Déjà en cours : de quel mot >>> {anagram.anag} <<< est-il l'anagramme ?")
 	else :
-		anagramme.on = True
-		anagramme.create_anag()
-		await ctx.send(f"Anagramme :   :arrow_right:   {anagramme.anag}   :arrow_left:	 Quel est le mot original ?")
+		anagram.on = True
+		anagram.create_anag()
+		await ctx.send(f"Anagramme :   :arrow_right:   {anagram.anag}   :arrow_left:	 Quel est le mot original ?")
 
 @bot.command(name='quiz')
 async def quiz_game(ctx):
@@ -107,19 +102,33 @@ async def quiz_game(ctx):
 		await ctx.send(f"Question : {quiz.question}")
 
 @bot.command(name = 'scores')
-async def scores(ctx, game) :
-	game = game.lower()
-	try :
-		game = eval(game)
-		if game.scores == {} :
-			await ctx.send(f"Aucun score enregistré pour le jeu >> {game.name} << ! Lancez-le vite : :arrow_right: {game.start} :arrow_left:")
+async def scores(ctx, game=None) :
+
+	def print_scores(one_game) :
+		to_print = ""
+		if one_game.scores == {} :
+			to_print = f"Aucun score enregistré pour le jeu >> {game.name} << ! Lancez-le vite : :arrow_right: {game.start} :arrow_left:"
 		else :
-			for pers in game.scores :
-				await ctx.send(f"{pers} : {game.scores[pers]}")
-	except : 
-		await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
-		await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
-		await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
+			to_print = f"Scores {game.name} :\n"
+			for pers in one_game.scores :
+				to_print += f"\n{pers} : {one_game.scores[pers]}"
+		return to_print
+
+	if not game :
+		for game in list_games :
+			await ctx.send(print_scores(game))
+	else :
+		game = game.lower()
+		for game_re in corres_games : 
+			if re.search(game_re,str(game)) :
+				game = corres_games[game_re]
+
+		if game in list_games :
+			await ctx.send(print_scores(game))
+		else : 
+			await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
+			await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
+			await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
 
 @bot.event
 async def on_message(message):
