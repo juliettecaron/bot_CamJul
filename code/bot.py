@@ -132,20 +132,6 @@ async def scores(ctx, game=None) :
 			await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
 			await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
 
-@bot.event
-async def on_message(message):
-
-	for game in list_games :
-		if game.on :
-			if message.content.lower() == game.answer  :
-				game.on = False
-				game.scores[message.author.name] += 1
-				await message.channel.send(f"Bravo {message.author.name} ! :partying_face: Score : {game.scores[message.author.name]}")
-				gif = await search_gifs("bravo")
-				await message.channel.send(gif)
-
-	await bot.process_commands(message)
-
 #------------------------------
 
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as stream:
@@ -160,7 +146,20 @@ async def infos_cours(ctx, commande=None, type_info=None):
 	if commande in doc_cpp:
 		if not type_info:
 			await ctx.send(f"{commande} : {doc_cpp[commande][description][texte]}")
+#--------------------------
+@bot.event
+async def on_message(message):
 
+	for game in list_games :
+		if game.on :
+			if message.content.lower() == game.answer  :
+				game.on = False
+				game.scores[message.author.name] += 1
+				await message.channel.send(f"Bravo {message.author.name} ! :partying_face: Score : {game.scores[message.author.name]}")
+				gif = await search_gifs("bravo")
+				await message.channel.send(gif)
+
+	await bot.process_commands(message)
 
 
 bot.run(discord_token)
