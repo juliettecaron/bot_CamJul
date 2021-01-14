@@ -145,7 +145,7 @@ async def infos_cours(ctx, commande=None, type_info=None):
 
 	if commande in doc_cpp:
 		if not type_info:
-			await ctx.send(f"{commande} : {doc_cpp[commande][description][texte]}")
+			await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
 #--------------------------
 @bot.event
 async def on_message(message):
