@@ -31,6 +31,11 @@ class Quiz(Game) :
 	def add_questions(self,fic) : 
 		with open (fic,"r",encoding="utf-8") as fic_questions :
 			self.questions.update(yaml.safe_load(fic_questions))
+
+	def create_question(self) :
+		self.question = random.choice(list(self.questions.keys()))
+		self.answer = self.questions[self.question]
+
 				  
 class Anagramme(Game) :
 
@@ -46,6 +51,7 @@ class Anagramme(Game) :
 			self.mots.extend(voc.read().split(','))
             
 	def create_anag(self) :
+		self.answer = random.choice(self.mots)
 		liste = list(self.answer)
 		mix = random.sample(liste,len(liste))
 		self.anag = ''.join(mix)

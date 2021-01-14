@@ -94,7 +94,6 @@ async def anag_game(ctx):
 		await ctx.send(f"Déjà en cours : de quel mot >>> {anagramme.anag} <<< est-il l'anagramme ?")
 	else :
 		anagramme.on = True
-		anagramme.answer = random.choice(anagramme.mots)
 		anagramme.create_anag()
 		await ctx.send(f"Anagramme :   :arrow_right:   {anagramme.anag}   :arrow_left:	 Quel est le mot original ?")
 
@@ -104,8 +103,7 @@ async def quiz_game(ctx):
 		await ctx.send(f"Déjà en cours ! Question : {quiz.question}")
 	else :
 		quiz.on = True
-		quiz.question = random.choice(list(quiz.questions.keys()))
-		quiz.answer = quiz.questions[quiz.question]
+		quiz.create_question()
 		await ctx.send(f"Question : {quiz.question}")
 
 @bot.command(name = 'scores')
@@ -119,19 +117,19 @@ async def scores(ctx, game) :
 			for pers in game.scores :
 				await ctx.send(f"{pers} : {game.scores[pers]}")
 	except : 
-		await ctx.send("Utilisation : scores <jeu>\n---------------")
+		await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
 		await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
-		await ctx.send(f"Lancement : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
+		await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
 
 @bot.event
 async def on_message(message):
 
 	for game in list_games :
 		if game.on :
-			if message.content == game.answer  : 
+			if message.content.lower() == game.answer  : 
 				game.on = False
 				game.scores[message.author.name] += 1
-				await message.channel.send(f"Bravo {message.author.name} ! :partying_face: {game.scores[message.author.name]}")
+				await message.channel.send(f"Bravo {message.author.name} ! :partying_face: Score : {game.scores[message.author.name]}")
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
