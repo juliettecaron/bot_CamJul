@@ -5,6 +5,7 @@
 from discord.ext.commands import Bot
 import giphy_client
 import re
+import json
 import os
 from games import *
 
