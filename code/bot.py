@@ -138,15 +138,26 @@ async def scores(ctx, game=None) :
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
+def get_matching_list(commande, liste_commande):
+	liste = []
+	return liste
+
+
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, commande=None, type_info=None):
-	await ctx.send("oui je suis la avec vous")
 	if not commande and not type_info:
 		await ctx.send(help_cpp)
-
-	if commande in doc_cpp:
-		if not type_info:
-			await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
+	if commande :
+		if commande in doc_cpp:
+			if not type_info:
+				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
+			elif type_info == "parametres":
+				await ctx.send(f"input :")
+				await ctx.send(f"```{commande} : {doc_cpp[commande]['exemple']['input']}```")
+				await ctx.send(f"output :")
+				await ctx.send(f"```{doc_cpp[commande]['exemple']['output']}```")
+		else :
+			get_matching_list(commande, doc_cpp.keys())
 #--------------------------
 @bot.event
 async def on_message(message):
