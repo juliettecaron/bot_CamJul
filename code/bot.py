@@ -110,8 +110,9 @@ async def scores(ctx, game=None) :
 			to_print = f"Aucun score enregistré pour le jeu >> {game.name} << ! Lancez-le vite : :arrow_right: {game.start} :arrow_left:"
 		else :
 			to_print = f"Scores {game.name} :\n"
-			for pers in one_game.scores :
-				to_print += f"\n{pers} : {one_game.scores[pers]}"
+			for pair in one_game.scores.most_common() :
+				for pers in pair :
+					to_print += f"\n{pers} : {one_game.scores[pers]}"
 		return to_print
 
 	if not game :
