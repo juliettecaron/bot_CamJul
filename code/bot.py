@@ -13,10 +13,11 @@ giphy_token = os.getenv('GIPHY_TOKEN')
 
 bot = Bot(command_prefix = '!')
 
-#utilisation de l'API Giphy pour pouvoir générer des gifs 
+#utilisation de l'API Giphy pour pouvoir générer des gifs
 api = giphy_client.DefaultApi()
 
 help = "Utilisation du bot : \n- Pour des informations sur les matières/devoirs : !devoirs <niveau> <matiere>"
+help_cpp = "Utilisation du bot : \n- Pour chercher une commande cpp : !cpp <nom_commande> opt( 'parametres' | 'exemple' | <nom_du_parametre> )"
 
 with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 	devoirs = yaml.safe_load(stream)
@@ -42,7 +43,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 	if niv :
 		niv = niv.lower()
-		for exp in corres_niv : 
+		for exp in corres_niv :
 			if re.search(exp,niv) :
 				niv = corres_niv[exp]
 		if niv in devoirs :
@@ -53,7 +54,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 			elif mat :
 				mat = mat.lower()
-				for exp in corres_mat : 
+				for exp in corres_mat :
 					if re.search(exp,mat) :
 						mat = corres_mat[exp]
 				if mat in devoirs[niv] :
@@ -66,7 +67,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 							await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
 			else :
 				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
-		else : 
+		else :
 			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help}")
 
 
@@ -74,7 +75,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 list_games = []
 quiz = Quiz()
-quiz.add_questions("files/questions.yaml")  
+quiz.add_questions("files/questions.yaml")
 list_games.append(quiz)
 
 anagram = Anagram()
@@ -85,7 +86,7 @@ corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
 
 @bot.command(name = 'anag')
 async def anag_game(ctx):
-	if anagram.on == True : 
+	if anagram.on == True :
 		await ctx.send(f"Déjà en cours : de quel mot >>> {anagram.anag} <<< est-il l'anagramme ?")
 	else :
 		anagram.on = True
@@ -94,7 +95,7 @@ async def anag_game(ctx):
 
 @bot.command(name='quiz')
 async def quiz_game(ctx):
-	if quiz.on == True : 
+	if quiz.on == True :
 		await ctx.send(f"Déjà en cours ! Question : {quiz.question}")
 	else :
 		quiz.on = True
@@ -120,13 +121,13 @@ async def scores(ctx, game=None) :
 			await ctx.send(print_scores(game))
 	else :
 		game = game.lower()
-		for game_re in corres_games : 
+		for game_re in corres_games :
 			if re.search(game_re,str(game)) :
 				game = corres_games[game_re]
 
 		if game in list_games :
 			await ctx.send(print_scores(game))
-		else : 
+		else :
 			await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
 			await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
 			await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
@@ -136,7 +137,7 @@ async def on_message(message):
 
 	for game in list_games :
 		if game.on :
-			if message.content.lower() == game.answer  : 
+			if message.content.lower() == game.answer  :
 				game.on = False
 				game.scores[message.author.name] += 1
 				await message.channel.send(f"Bravo {message.author.name} ! :partying_face: Score : {game.scores[message.author.name]}")
@@ -145,4 +146,21 @@ async def on_message(message):
 
 	await bot.process_commands(message)
 
-bot.run(discord_token)	
+#------------------------------
+
+with open("files/docs/cpp.json", 'r', encoding="utf-8") as stream:
+	doc_cpp = json.load(stream)
+
+@bot.command(name = 'cpp')
+async def infos_cours(ctx, commande=None, type_info=None):
+
+	if not commande and not type_info:
+		await ctx.send(help_cpp)
+
+	if commande in doc_cpp:
+		if not type_info:
+			await ctx.send(f"{commande} : {doc_cpp[commande][description][texte]}")
+
+
+
+bot.run(discord_token)
