@@ -138,7 +138,7 @@ with open("files/docs/cpp.json", 'r', encoding="utf-8") as stream:
 	doc_cpp = json.load(stream)
 
 @bot.command(name = 'cpp')
-async def infos_cours(ctx, commande=None, type_info=None):
+async def get_cpp(ctx, commande=None, type_info=None):
 	print("oui je suis la avec vous")
 	if not commande and not type_info:
 		await ctx.send(help_cpp)
