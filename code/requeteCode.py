@@ -35,11 +35,11 @@ def levenshtein(token1, token2):
 class RequeteCommande(object) :
 
     def __init__(self, mode) :
-        self.choix_on = False
-        self.choix = []
-        self.nb_choix = 0
-        self.memoire_requete = None
-        self.message_reponses = []
+        self.choices_on = False
+        self.choices = []
+        self.choices_nb = 0
+        self.request_memory = None
+        self.message_responses = []
         self.mode = mode
         self.display_start = 0
 
@@ -68,10 +68,10 @@ class RequeteCommande(object) :
         if commande in bdd:
             if not type_inf:
                 descr = bdd[commande]['description']['texte']
-                self.message_reponses.append(f"{commande} :\n{descr}")
+                self.message_responses.append(f"{commande} :\n{descr}")
                 try :
                     code_descr = bdd[commande]['description']['code']
-                    self.message_reponses.append(self.display_code(code_descr, self.mode))
+                    self.message_responses.append(self.display_code(code_descr, self.mode))
                 except (KeyError):
                     pass
             else :
@@ -79,35 +79,35 @@ class RequeteCommande(object) :
 
                 if type_info == "parametres" :
                     try :
-                        self.message_reponses.append(f"{bdd[commande]['parametres']}")
+                        self.message_responses.append(f"{bdd[commande]['parametres']}")
                     except (KeyError) :
-                        self.message_reponses.append(f"Pas de paramètre pour la commande : {commande}")
+                        self.message_responses.append(f"Pas de paramètre pour la commande : {commande}")
 
                 elif type_info == "exemple" :
                     try :
                         input = bdd[commande]['exemple']['input']
-                        self.message_reponses.append(f"input :")
-                        self.message_reponses.append(self.display_code(input, self.mode))
+                        self.message_responses.append(f"input :")
+                        self.message_responses.append(self.display_code(input, self.mode))
                         try :
                             output = bdd[commande]['exemple']['output']
-                            self.message_reponses.append(f"output :")
-                            self.message_reponses.append(self.display_code(output, self.mode))
+                            self.message_responses.append(f"output :")
+                            self.message_responses.append(self.display_code(output, self.mode))
                         except (KeyError):
-                            self.message_reponses.append(f"Pas d'output précisé.")
+                            self.message_responses.append(f"Pas d'output précisé.")
                     except (KeyError):
-                        self.message_reponses.append(f"Pas d'exemple pour la commande {commande}.")
+                        self.message_responses.append(f"Pas d'exemple pour la commande {commande}.")
 
                 else :
                     raise ValueError
         else :
-            self.choix = self.get_matching_list(commande, bdd.keys())
-            self.nb_choix = len(self.choix)
-            if self.nb_choix != 0 :
-                liste_numerotee = '\n'.join([str(self.choix.index(resultat)+1)+' - '+resultat for resultat in self.choix[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
-                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee}")
-                if self.nb_choix > 20 :
-                    self.message_reponses.append("(répondez \"next\" pour voir les autres résultats)")
-                self.choix_on = True
-                self.memoire_requete = type_inf
+            self.choices = self.get_matching_list(commande, bdd.keys())
+            self.choices_nb = len(self.choices)
+            if self.choices_nb != 0 :
+                liste_results = '\n'.join([str(self.choices.index(resultat)+1)+' - '+resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
+                self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
+                if self.choices_nb > 20 :
+                    self.message_responses.append("(répondez \"next\" pour voir les autres résultats)")
+                self.choices_on = True
+                self.request_memory = type_inf
             else :
-                self.message_reponses.append(f"Commande complètement inconnue ! On a tous nos failles...")
+                self.message_responses.append(f"Commande complètement inconnue ! On a tous nos failles...")

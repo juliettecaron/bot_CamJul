@@ -220,19 +220,19 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	if requete.choix_on :
+	if requete.choices_on :
 		if message.content.rstrip().isdigit():
 			try :
 				if requete.mode == "cpp" :
-					commande = requete.choix[int(message.content)-1]
-					await get_cpp(message.channel, commande, requete.memoire_requete)
+					commande = requete.choices[int(message.content)-1]
+					await get_cpp(message.channel, commande, requete.request_memory)
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		if "next" in message.content :
 			requete.display_start = requete.display_start+20
-			liste_numerotee = '\n'.join([str(requete.choix.index(resultat)+1)+' - '+resultat for resultat in requete.choix[requete.display_start:requete.display_start+20]])
-			await message.channel.send(f"suite commandes :  \n{liste_numerotee}")
-			if requete.nb_choix > requete.display_start+20 :
+			list_results = '\n'.join([str(requete.choices.index(resultat)+1)+' - '+resultat for resultat in requete.choices[requete.display_start:requete.display_start+20]])
+			await message.channel.send(f"suite commandes :  \n{list_results}")
+			if requete.choices_nb > requete.display_start+20 :
 				await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
 
 
