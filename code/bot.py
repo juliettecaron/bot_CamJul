@@ -59,7 +59,7 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 	\nVous gagnez un point à chaque bonne réponse !\n\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*",
 	"scores" : f":chart_with_upwards_trend: SCORES\n\nPour connaître les scores des jeux !\n\
 	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
-	"cpp" : f":placard: C++\n\n__Commande__ : \n**!cpp <commande>** pour une description de la commande (...)\n\
+	"cpp" : f":placard: C++\n\n__Commande__ : \n**!cpp <commande>** pour une description de la commande (...)\
 	\n **!cpp <commande> <parametres>**  pour les paramètres de la commande\
 	\n **!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
 
@@ -75,7 +75,7 @@ async def help_bot(ctx, commande = None):
 		    \n{help_dict['devoirs']}\n----------------------------------------\n:game_die: **JEUX**\n\
 			\n{help_dict['anag']}\n\
 			\n{help_dict['quiz']}\n\
-			\n{help_dict['scores']}\n\
+			\n{help_dict['scores']}\
 			\n----------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\
 			\n{help_dict['cpp']}\
 			\n----------------------------------------")
