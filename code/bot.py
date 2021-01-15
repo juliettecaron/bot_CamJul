@@ -44,7 +44,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 	elif niv :
 		niv = niv.lower()
-		for exp in corres_niv : 
+		for exp in corres_niv :
 			if re.search(exp,niv) :
 				niv = corres_niv[exp]
 		if niv in devoirs :
@@ -53,7 +53,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 			elif mat :
 				mat = mat.lower()
-				for exp in corres_mat : 
+				for exp in corres_mat :
 					if re.search(exp,mat) :
 						mat = corres_mat[exp]
 				if mat in devoirs[niv] :
@@ -66,7 +66,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 							await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
 			else :
 				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
-		else : 
+		else :
 			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help_devoirs}")
 
 
@@ -75,7 +75,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 list_games = []
 
 quiz = Quiz()
-quiz.add_questions("files/quiz")  
+quiz.add_questions("files/quiz")
 list_games.append(quiz)
 
 anagram = Anagram()
@@ -86,7 +86,7 @@ corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
 
 @bot.command(name = 'anag')
 async def anag_game(ctx):
-	if anagram.on == True : 
+	if anagram.on == True :
 		await ctx.send(f"Déjà en cours : de quel mot >>> {anagram.anag} <<< est-il l'anagramme ?")
 	else :
 		anagram.on = True
@@ -95,7 +95,7 @@ async def anag_game(ctx):
 
 @bot.command(name='quiz')
 async def quiz_game(ctx, theme=None):
-	if quiz.on == True : 
+	if quiz.on == True :
 		await ctx.send(f"Déjà en cours ! Question : {quiz.question}")
 	else :
 		if theme :
@@ -107,7 +107,7 @@ async def quiz_game(ctx, theme=None):
 			else :
 				await ctx.send(f"Vous ne pouvez pas choisir le thème {theme} !")
 				await ctx.send(f"Thèmes disponibles :  {' :star: '.join(quiz.themes)}")
-		else : 
+		else :
 			quiz.on = True
 			quiz.create_question()
 			await ctx.send(f"Question : {quiz.question}")
@@ -130,13 +130,13 @@ async def scores(ctx, game=None) :
 			await ctx.send(print_scores(game))
 	else :
 		game = game.lower()
-		for game_re in corres_games : 
+		for game_re in corres_games :
 			if re.search(game_re,str(game)) :
 				game = corres_games[game_re]
 
 		if game in list_games :
 			await ctx.send(print_scores(game))
-		else : 
+		else :
 			await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
 			await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
 			await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
@@ -150,22 +150,39 @@ def get_matching_list(commande, liste_commande):
 	liste = []
 	return liste
 
+def display_code(code, langage):
+	return f"```{langage} \n{commande}\n```"
 
 @bot.command(name = 'cpp')
-async def get_cpp(ctx, commande=None, type_info=None):
-	if not commande and not type_info:
-		await ctx.send(help_cpp)
-	if commande :
+async def get_cpp(ctx, com=None, type_inf=None):
+
+	if com :
+		commande = com.lower()
 		if commande in doc_cpp:
-			if not type_info:
+
+			if not type_inf:
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
-			elif type_info == "parametres":
-				await ctx.send(f"input :")
-				await ctx.send(f"```{commande} : {doc_cpp[commande]['exemple']['input']}```")
-				await ctx.send(f"output :")
-				await ctx.send(f"```{doc_cpp[commande]['exemple']['output']}```")
+			else :
+				type_info = type_inf.lower()
+				if type_info == "exemple":
+					input = doc_cpp[commande]['exemple']['input']
+					output = doc_cpp[commande]['exemple']['output']
+					await ctx.send(f"input :")
+					await ctx.send(display_code(input, "cpp"))
+					try
+						output = doc_cpp[commande]['exemple']['output']
+						await ctx.send(f"output :")
+						await ctx.send(display_code(output, "cpp"))
+					except (KeyError):
+						await ctx.send(f"Pas d'output précisé.")
+
+				if type_info == "parametres":
+					await ctx.send(f"{doc_cpp[commande]['parametres']}}")
+
 		else :
-			get_matching_list(commande, doc_cpp.keys())
+			resultats = get_matching_list(commande, doc_cpp.keys())
+			if len(resultats) != 0:
+			await ctx.send(f"input :")
 #--------------------------
 @bot.event
 async def on_message(message):
@@ -174,7 +191,7 @@ async def on_message(message):
 
 	for game in list_games :
 		if game.on :
-			if game.answer in message.content.lower() : 
+			if game.answer in message.content.lower() :
 				game.on = False
 				game.scores[message.author.name] += 1
 				await message.channel.send(f"Bravo {message.author.name} ! :partying_face:  Score : {game.scores[message.author.name]}")
@@ -183,4 +200,4 @@ async def on_message(message):
 
 	await bot.process_commands(message)
 
-bot.run(discord_token)	
+bot.run(discord_token)
