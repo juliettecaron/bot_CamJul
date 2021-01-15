@@ -27,7 +27,7 @@ corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"f
 				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
 				r"calcul(abilit(é|e))?\b" : "calculabilite", r"r(é|e)seau(x)?( de neurone(s)?)?\b" :"reseaux de neurones",
 				r"s(é|e)mantique( des textes)?\b" : "semantique", r"xml|document(s)? structur(é|e)s?\n" : "documents structures",
-				"programmation objet" : "java", r"(traitements?)? statistiques?( de corpus)?" : "statistiques"}
+				"programmation objet" : "java", r"(traitements? )?statistiques?( de corpus)?" : "statistiques"}
 
 corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
 
