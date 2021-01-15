@@ -33,7 +33,7 @@ with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
-#requete = RequeteCommande(mode="")
+requete = RequeteCommande(mode="")
 
 list_games = []
 
