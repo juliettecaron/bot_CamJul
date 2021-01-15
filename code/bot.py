@@ -227,7 +227,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			else :
 				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
 	else :
-		await help_bot("cpp")
+		await help_bot(ctx,"cpp")
 
 @bot.command(name = 'python')
 async def get_python(ctx, com=None, type_inf=None):
