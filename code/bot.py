@@ -108,7 +108,7 @@ async def help_bot(ctx, commande = None):
 			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
 		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
 			{help_dict['anag']}\n\n\
-			{help_dic['quiz']}\n\n\
+			{help_dict['quiz']}\n\n\
 			{help_dict['scores']}\n\
 			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\n\
 			{help_dict['cpp']}\
