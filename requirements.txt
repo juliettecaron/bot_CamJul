@@ -1,3 +1,4 @@
 discord.py
 giphy_client
 pyyaml
+numpy
