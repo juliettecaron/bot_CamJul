@@ -1,5 +1,5 @@
 
-import numpy as np
+import numpy
 
 def levenshtein(token1, token2):
     distances = numpy.zeros((len(token1) + 1, len(token2) + 1))
