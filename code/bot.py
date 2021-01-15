@@ -223,6 +223,9 @@ async def on_message(message):
 		await message.channel.send("niveau0 OK")
 		try :
 			await message.channel.send("niveau1 OK")
+			await message.channel.send(requete.choix_on)
+			await message.channel.send("choix : "+repr(requete.choix))
+			await message.channel.send(" mode :"+requete.mode)
 			if requete.choix_on:
 				await message.channel.send("NIVEAU 2 OK")
 				try :
