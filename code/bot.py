@@ -108,7 +108,7 @@ async def help_bot(ctx, commande = None):
 				await ctx.send(help_dict[commande])
 			except (KeyError) :
 				ctx.send(f"La commande \"{commande}\" n'existe pas\n\
-				Liste des commandes : !{" / !".join(help_dict.keys())}")
+				Liste des commandes : !{' / !'.join(help_dict.keys())}")
 		else :
 			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
 		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
