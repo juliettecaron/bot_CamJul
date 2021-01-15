@@ -95,7 +95,7 @@ corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
 async def infos_cours(ctx, niv=None, mat=None):
 
 	if not niv and not mat :
-		await help_bot(ctx, "devoirs")
+		await ctx.send(help_dict['devoirs'])
 
 	elif niv :
 		niv = niv.lower()
@@ -104,7 +104,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 				niv = corres_niv[exp]
 		if niv in devoirs :
 			if devoirs[niv] == None :
-				await ctx.send(f"Aucune matière enregistrée pour le niveau {niv} (pour le moment !)\n\n{help_devoirs}")
+				await ctx.send(f"Aucune matière enregistrée pour le niveau {niv} (pour le moment !)\n\n{help_dict['devoirs']}")
 
 			elif mat :
 				mat = mat.lower()
@@ -122,7 +122,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 			else :
 				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
 		else :
-			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help_devoirs}")
+			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help_dict['devoirs']}")
 
 #------------------------------
 
