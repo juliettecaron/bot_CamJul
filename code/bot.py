@@ -200,7 +200,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			if not type_inf:
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
 				try :
-					await ctx.send(display_code([commande]['description']['code'], "cpp"))
+					await ctx.send(display_code(doc_cpp[commande]['description']['code'], "cpp"))
 				except (KeyError):
 					pass
 			else :
