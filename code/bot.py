@@ -193,7 +193,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 
 @bot.command(name = 'python')
 async def get_python(ctx, com=None, type_inf=None):
-	get_cpp(ctx, com=None, type_inf=None)
+	await get_cpp(ctx, com=None, type_inf=None)
 #--------------------------
 @bot.event
 async def on_message(message):
