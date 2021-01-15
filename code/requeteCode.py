@@ -104,7 +104,7 @@ class RequeteCommande(object) :
             if len(resultats) != 0 :
                 self.nb_choix = len(self.choix)
                 liste_numerotee = '\n'.join([str(self.choix.index(resultat)+1)+' - '+resultat for resultat in self.choix[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
-                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee[]}")
+                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee}")
                 if nb_choix > 20 :
                     self.message_reponses.append("(répondez \"next\" pour voir les autres résultats)")
                 self.choix_on = True

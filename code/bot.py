@@ -231,7 +231,7 @@ async def on_message(message):
 		if "next" in message.content :
 			requete.display_start = requete.display_start+20
 			liste_numerotee = '\n'.join([str(requete.choix.index(resultat)+1)+' - '+resultat for resultat in requete.choix[requete.display_start:requete.display_start+20]])
-			await message.channel.send(f"suite commandes :  \n{liste_numerotee[]}")
+			await message.channel.send(f"suite commandes :  \n{liste_numerotee}")
 			if requete.nb_choix > requete.display_start+20 :
 				await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
 
