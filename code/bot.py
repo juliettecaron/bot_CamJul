@@ -196,7 +196,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			for message in requete.message_reponses :
 				await ctx.send(message)
 		except ValueError :
-			await ctx.send("erreur argument2")
+			await help_bot(ctx,"cpp")
 	else :
 		await help_bot(ctx,"cpp")
 
@@ -226,7 +226,7 @@ async def on_message(message):
 						await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
 				except IndexError :
 					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
-	except UnboundLocalError: #si requete n'a pas été créé
+	except (UnboundLocalError, NameError): #si requete n'a pas été créé
 		pass
 	await bot.process_commands(message)
 
