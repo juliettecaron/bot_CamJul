@@ -52,13 +52,13 @@ bot = Bot(command_prefix = '!')
 bot.remove_command('help')
 
 help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\n\
-__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java",
+\n__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java",
 	"anag" : f":placard: ANAGRAMME\n\nL'anagramme d'un mot du vocabulaire du TAL vous est proposé, \
-	vous devez retrouver le mot original. Vous gagnez un point à chaque fois que vous trouvez un mot !\n\n__Commande__ : **!anag**",
+	\nvous devez retrouver le mot original. Vous gagnez un point à chaque fois que vous trouvez un mot !\n\n__Commande__ : **!anag**",
 	"quiz" : f":books: QUIZ\n\nLe bot vous pose une question, à vous de trouver la réponse ! \
-	Vous gagnez un point à chaque bonne réponse !\n\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*",
+	\nVous gagnez un point à chaque bonne réponse !\n\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*",
 	"scores" : f":chart_with_upwards_trend: SCORES\n\nPour connaître les scores des jeux !\n\n\
-	__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
+	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
 	"cpp" : f":placard: C++\n\n__Commande__ : **!cpp <commande>** pour une description de la commande (...)\n\
 	\n         **!cpp <commande> <parametres>**  pour les paramètres de la commande\
 	\n         **!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
@@ -72,12 +72,12 @@ async def help_bot(ctx, commande = None):
 				await ctx.send(f"La commande \"{commande}\" n'existe pas\nListe des commandes : !{' / !'.join(help_dict.keys())}")
 		else :
 			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
-		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
-			{help_dict['anag']}\n\n\
-			{help_dict['quiz']}\n\n\
-			{help_dict['scores']}\n\
+		    \n{help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
+			\n{help_dict['anag']}\n\n\
+			\n{help_dict['quiz']}\n\n\
+			\n{help_dict['scores']}\n\
 			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\n\
-			{help_dict['cpp']}\
+			\n{help_dict['cpp']}\
 			\n------------------------------------")
 
 #------------------------------
@@ -192,7 +192,8 @@ async def get_cpp(ctx, com=None, type_inf=None):
 
 	if com :
 		commande = com.lower()
-		global requete = RequeteCommande(mode = "cpp")
+		global requete
+		requete = RequeteCommande(mode = "cpp")
 		try :
 			requete.lancer_requete(doc_cpp, com, type_inf)
 			for message in requete.message_reponses :
