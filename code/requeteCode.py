@@ -1,5 +1,6 @@
 '''
-Classes
+Classe représentant une requête sur une base de données de documentation
+et fonction levenshtein
 '''
 
 # -*- coding: utf-8 -*-
@@ -43,8 +44,19 @@ def levenshtein(token1, token2):
     return distances[len(token1)][len(token2)]
 
 class RequeteCommande(object) :
-
+    '''
+    Classe RequeteCommande : permet de faire des requêtes sur des bases de
+    données de documentation, et de garder
+    mode = le langage de la documentation (cpp, python...)
+    choices_on = True si des propositions de commandes proches sont en cours (default False)
+    choices = les commandes proches
+    choices_nb = le nombre de commandes proches trouvées
+    request_memory = stockage du type d'info demandé (exemple/paramètre)
+    message_responses = liste de messages de réponse à envoyer en retour à la requête
+    display_start = indice à partir duquel montrer 20 commandes (pour les propositions de commandes proches)
+    '''
     def __init__(self, mode) :
+
         self.choices_on = False
         self.choices = []
         self.choices_nb = 0
@@ -92,14 +104,14 @@ class RequeteCommande(object) :
                 descr = bdd[commande]['description']['texte']
                 self.message_responses.append(f"{commande} :\n{descr}")
                 try :
-                    code_descr = bdd[commande]['description']['code']
+                    code_descr = bdd[commande]['description']['code'] #cas où il y a du code dans la description
                     self.message_responses.append(self.display_code(code_descr, self.mode))
                 except (KeyError):
                     pass
 
             # info précise demandée
             else :
-                type_info = type_inf.lower()
+                type_info = type_inf.lower().replace('è','e')
 
                 if type_info == "parametres" :
                     try :
@@ -136,7 +148,7 @@ class RequeteCommande(object) :
                 list_results = '\n'.join([str(self.choices.index(resultat) + 1) + ' - ' + resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
                 if self.choices_nb > 20 :
-                    self.message_responses.append("(répondez \"next\" pour voir les autres résultats)")
+                    self.message_responses.append("(répondez **\"next\"** pour voir les autres résultats)")
                 self.choices_on = True
                 self.request_memory = type_inf #sauvegarder le type d'info demandé
                 #(pour si l'utilisateur choisit une commande parmi celles trouvées)

@@ -1,5 +1,5 @@
 '''
-Bot Discord pour le serveur Plurital 
+Bot Discord pour le serveur Plurital
 
 Utile :
 - Donne des informations sur les devoirs des différentes sections
@@ -84,9 +84,9 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 async def help_bot(ctx, commande = None):
 		'''
 		Fonction associée à la commande !help
-		Arg : 'commande' (None par défaut) 
+		Arg : 'commande' (None par défaut)
 
-		Affiche les consignes pour l'utilisation du bot 
+		Affiche les consignes pour l'utilisation du bot
 		-> les consignes d'une commande si elle est précisée, sinon toutes les consignes
 		'''
 		if commande :
@@ -191,7 +191,7 @@ async def quiz_game(ctx, theme=None):
 	Si le jeu est déjà en cours : rappelle la question en cours
 	Sinon : génère et affiche une nouvelle question
 
-	Si un thème est précisé, génère et affiche une question de ce thème 
+	Si un thème est précisé, génère et affiche une question de ce thème
 		-> Si le thème n'est pas dans la base, affiche les thèmes disponibles
 
 	(Voir games.py)
@@ -218,7 +218,7 @@ async def scores(ctx, game = None) :
 	'''
 	Fonction associée à la commande !scores
 	Arg : 'game' (None par défaut)
-	
+
 	Affiche les scores :
 	-> d'un jeu spécifique s'il est précisé en argument,
 	-> de tous les jeux sinon
@@ -230,8 +230,8 @@ async def scores(ctx, game = None) :
 	def print_scores(one_game) :
 		'''
 		Sous-fonction qui définit les messages à afficher pour les scores d'un jeu
-		Arg : 'one_game', le nom d'un jeu 
-		Renvoie une chaîne correspondant au message à afficher 
+		Arg : 'one_game', le nom d'un jeu
+		Renvoie une chaîne correspondant au message à afficher
 		(Les scores de chaque joueur si le jeu est dans la base, les consignes de la commande sinon)
 		'''
 		to_print = ""
@@ -265,11 +265,18 @@ async def scores(ctx, game = None) :
 async def get_cpp(ctx, com = None, type_inf = None):
 	'''
 	Fonction associée à la commande !cpp
-	Genère et affiche la documentation du langage C++ 
+	Genère et affiche la documentation du langage C++
 
-	Arg : 'com' (None par défaut), 'type_inf' (None par défaut)
+	Arg : 'com' - la commande à chercher dans la doc (None par défaut),
+	'type_inf' - l'information précise à chercher, "parametres" ou "exemple" (None par défaut)
 
+	Renvoie le help de !cpp si la commande est mal formée
+	si la commande n'est pas trouvée telle quelle dans la bdd, propose des commandes proches
+	l'utilisateur peut en choisir une en renvoyant son numéro
+
+	Requete effectuée via un objet RequeteCommande
 	(Voir requeteCode.py)
+
 	'''
 	if com :
 		commande = com.lower()
@@ -277,7 +284,7 @@ async def get_cpp(ctx, com = None, type_inf = None):
 		requete = RequeteCommande(mode = "cpp")
 		try :
 			requete.lancer_requete(doc_cpp, com, type_inf)
-			for message in requete.message.responses :
+			for message in requete.message_responses :
 				await ctx.send(message)
 		except ValueError :
 			await help_bot(ctx, "cpp")
@@ -288,11 +295,14 @@ async def get_cpp(ctx, com = None, type_inf = None):
 @bot.event
 async def on_message(message) :
 	'''
-	Fonction qui permet au bot d'analyser les messages du serveur (hors commandes) 
+	Fonction qui permet au bot d'analyser les messages du serveur (hors commandes)
 	Arg : 'message' -> chaque message du serveur
 
-	Permet de reconnaître les réponses justes des jeux, 
+	Permet de reconnaître les réponses justes des jeux,
 	d'afficher un message pour les gagnants (avec un petit gif) et d'augmenter leurs scores
+
+	Permet de récupérer les réponses le choix d'un utilisateur parmi les propositions de
+	commandes proches / d'afficher les commandes proches suivantes
 	'''
 
 	#le bot ne prend pas en compte les messages des autres bots
@@ -308,23 +318,28 @@ async def on_message(message) :
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
+	#si des propositions de commandes proches sont en cours
 	if requete.choices_on :
+		#si le message est un numéro
 		if message.content.rstrip().isdigit():
 			try :
+				commande = requete.choices[int(message.content) - 1]
 				if requete.mode == "cpp" :
-					commande = requete.choices[int(message.content) - 1]
 					await get_cpp(message.channel, commande, requete.request_memory)
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
-		if "next" in message.content :
+		#si le message est une instruction next
+		elif "next" in message.content :
+			#s'il reste des commandes proches à afficher
 			if requete.display_start < requete.choices_nb :
+				#afficher les 20 prochaines commandes (ou moins si il en reste moins de 20)
 				requete.display_start = requete.display_start + 20
 				list_results = '\n'.join([str(requete.choices.index(resultat) + 1) + ' - ' + resultat for resultat in requete.choices[requete.display_start:requete.display_start + 20]])
 				await message.channel.send(f"suite commandes :  \n{list_results}")
 				if requete.choices_nb > requete.display_start + 20 :
-					await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
+					await message.channel.send("(répondez **\"next\"** pour voir les autres résultats)")
 
-	#ligne qui permet de faire fonctionner le bloc précédé de @bot.event ET les blocs précédés de @bot.command 
+	#ligne qui permet de faire fonctionner le bloc précédé de @bot.event ET les blocs précédés de @bot.command
 	await bot.process_commands(message)
 
 #lancement du bot
