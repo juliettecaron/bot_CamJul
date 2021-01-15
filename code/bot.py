@@ -51,6 +51,9 @@ anagram = Anagram()
 anagram.add_voc_anag("files/mots.txt")
 list_games.append(anagram)
 
+help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\n__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java"
+	"anag" : f":placard: ANAGRAMME\n\nL'anagramme d'un mot du vocabulaire du TAL vous est proposé, vous devez retrouver le mot original. Vous gagnez un point à chaque fois que vous trouvez un mot !\n\n__Commande__ : **!anag**\n\n:books: QUIZ\n\nLe bot vous pose une question, à vous de trouver la réponse ! Vous gagnez un point à chaque bonne réponse !" }
+
 @bot.command(name = 'devoirs')
 async def infos_cours(ctx, niv=None, mat=None):
 
@@ -90,10 +93,9 @@ bot.remove_command('help')
 
 @bot.command(name = 'help')
 async def help_bot(ctx):
-		await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n:calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\
-			\n__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java\n------------------------------------\n:game_die: **JEUX**\n\n:placard: ANAGRAMME\n\
-			\nL'anagramme d'un mot du vocabulaire du TAL vous est proposé, vous devez retrouver le mot original. Vous gagnez un point à chaque fois que vous trouvez un mot !\n\
-			\n__Commande__ : **!anag**\n\n:books: QUIZ\n\nLe bot vous pose une question, à vous de trouver la réponse ! Vous gagnez un point à chaque bonne réponse !\n\
+		await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
+		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
+			{help_dict['anag']}\n\
 			\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*\n\n:chart_with_upwards_trend: SCORES\n\
 			\nPour connaître les scores des jeux !\n\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !\n\
 			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\n:placard: C++\n\
