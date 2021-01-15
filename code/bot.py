@@ -27,6 +27,14 @@ async def search_gifs(keyword):
 	gif = random.choices(result_list)
 	return gif[0].url
 
+with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
+	devoirs = yaml.safe_load(stream)
+
+with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
+	doc_cpp = json.load(fic_in)
+
+#requete = RequeteCommande(mode="")
+
 list_games = []
 
 quiz = Quiz()
@@ -61,8 +69,7 @@ async def help_bot(ctx, commande = None):
 			try :
 				await ctx.send(help_dict[commande])
 			except (KeyError) :
-				await ctx.send(f"La commande \"{commande}\" n'existe pas\n\
-				Liste des commandes : !{' / !'.join(help_dict.keys())}")
+				await ctx.send(f"La commande \"{commande}\" n'existe pas\nListe des commandes : !{' / !'.join(help_dict.keys())}")
 		else :
 			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
 		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
@@ -75,8 +82,6 @@ async def help_bot(ctx, commande = None):
 
 #------------------------------
 
-with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
-	devoirs = yaml.safe_load(stream)
 
 corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte",
 				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
@@ -182,17 +187,12 @@ async def scores(ctx, game=None) :
 
 #------------------------------
 
-with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
-	doc_cpp = json.load(fic_in)
-
-requete = RequeteCommande(mode="")
-
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
 
 	if com :
 		commande = com.lower()
-		requete = RequeteCommande(mode = "cpp")
+		global requete = RequeteCommande(mode = "cpp")
 		try :
 			requete.lancer_requete(doc_cpp, com, type_inf)
 			for message in requete.message_reponses :
