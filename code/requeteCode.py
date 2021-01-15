@@ -47,8 +47,8 @@ class RequeteCommande(object) :
                 else :
                     raise ValueError
         else :
-			resultats = self.get_matching_list(commande, bdd.keys())
-			if len(resultats) != 0 :
-				self.message_reponses.append(f"Aucun match, vouliez-vous dire : ")
-			else :
-				self.message_reponses.append(f"Commande complètement inconnue ! On a tous nos failles...")
+            resultats = self.get_matching_list(commande, bdd.keys())
+            if len(resultats) != 0 :
+                self.message_reponses.append(f"Aucun match, vouliez-vous dire : ")
+            else :
+                self.message_reponses.append(f"Commande complètement inconnue ! On a tous nos failles...")
