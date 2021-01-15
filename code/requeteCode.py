@@ -24,6 +24,13 @@ class RequeteCommande(object) :
                     pass
             else :
                 type_info = type_inf.lower()
+
+                if type_info == "parametres" :
+                    try :
+                        self.message_reponses.append(f"{bdd[commande]['parametres']}")
+                    except (KeyError) :
+                        self.message_reponses.append(f"Pas de paramètre pour la commande : {commande}")
+
                 if type_info == "exemple" :
                     try :
                         input = bdd[commande]['exemple']['input']
@@ -38,11 +45,7 @@ class RequeteCommande(object) :
                     except (KeyError):
                         self.message_reponses.append(f"Pas d'exemple la commande {commande}.")
 
-                if type_info == "parametres" :
-                    try :
-                        self.message_reponses.append(f"{bdd[commande]['parametres']}")
-                    except (KeyError) :
-                        self.message_reponses.append(f"Pas de paramètre pour la commande : {commande}")
+
 
                 else :
                     raise ValueError
