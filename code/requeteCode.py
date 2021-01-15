@@ -31,7 +31,7 @@ class RequeteCommande(object) :
                     except (KeyError) :
                         self.message_reponses.append(f"Pas de paramètre pour la commande : {commande}")
 
-                if type_info == "exemple" :
+                elif type_info == "exemple" :
                     try :
                         input = bdd[commande]['exemple']['input']
                         self.message_reponses.append(f"input :")
@@ -43,7 +43,7 @@ class RequeteCommande(object) :
                         except (KeyError):
                             self.message_reponses.append(f"Pas d'output précisé.")
                     except (KeyError):
-                        self.message_reponses.append(f"Pas d'exemple la commande {commande}.")
+                        self.message_reponses.append(f"Pas d'exemple pour la commande {commande}.")
 
 
 
