@@ -221,21 +221,19 @@ async def on_message(message):
 				await message.channel.send(gif)
 
 	if message.content.rstrip().isdigit() :
-		await message.channel.send("niveau0 OK")
-		try :
-			await message.channel.send("niveau1 OK")
-			await message.channel.send(requete.choix_on)
-			await message.channel.send("choix : "+repr(requete.choix))
-			await message.channel.send(" mode :"+requete.mode)
-			if requete.choix_on:
-				await message.channel.send("NIVEAU 2 OK")
-				try :
-					if requete.mode == cpp :
-						await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
-				except IndexError :
-					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
-		except (UnboundLocalError, NameError): #si requete n'a pas été créé
-			pass
+		await message.channel.send("niveau1 OK")
+		await message.channel.send(requete.choix_on)
+		await message.channel.send("choix : "+repr(requete.choix))
+		await message.channel.send(" mode :"+requete.mode)
+		if requete.choix_on:
+			await message.channel.send("NIVEAU 2 OK")
+			try :
+				if requete.mode == cpp :
+					await message.channel.send("NIVEAU 3 OK")
+					await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
+			except IndexError :
+				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
+
 
 	await bot.process_commands(message)
 
