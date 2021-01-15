@@ -12,27 +12,12 @@ from games import *
 discord_token = os.getenv('DISCORD_TOKEN')
 giphy_token = os.getenv('GIPHY_TOKEN')
 
-bot = Bot(command_prefix = '!')
-
 #utilisation de l'API Giphy pour pouvoir générer des gifs
 api = giphy_client.DefaultApi()
 
-help_devoirs = "Utilisation du bot : \n- Pour des informations sur les matières/devoirs : !devoirs <niveau> <matiere>"
-help_cpp = "Utilisation du bot : \n- Pour chercher une commande cpp : !cpp <nom_commande> opt( 'parametres' | 'exemple' | <nom_du_parametre> )"
-
-with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
-	devoirs = yaml.safe_load(stream)
-
-corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte",
-				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
-				r"calcul(abilit(é|e))?\b" : "calculabilite", r"r(é|e)seau(x)?( de neurone(s)?)?\b" :"reseaux de neurones",
-				r"s(é|e)mantique( des textes)?\b" : "semantique", r"xml|document(s)? structur(é|e)s?\n" : "documents structures",
-				"programmation objet" : "java", r"(traitements? )?statistiques?( de corpus)?" : "statistiques"}
-
-corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
-
 async def search_gifs(keyword):
-
+	'''
+	'''
 	#on recherche les gifs les + pertinents dans la base Giphy en fonction du mot-clé
 	result = api.gifs_search_get(giphy_token, keyword, limit=5, rating='g')
 	result_list = list(result.data)
@@ -50,6 +35,8 @@ list_games.append(quiz)
 anagram = Anagram()
 anagram.add_voc_anag("files/mots.txt")
 list_games.append(anagram)
+
+bot = Bot(command_prefix = '!')
 
 #-------------------------
 
@@ -86,6 +73,17 @@ async def help_bot(ctx, commande = None):
 			\n------------------------------------")
 
 #------------------------------
+
+with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
+	devoirs = yaml.safe_load(stream)
+
+corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte",
+				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
+				r"calcul(abilit(é|e))?\b" : "calculabilite", r"r(é|e)seau(x)?( de neurone(s)?)?\b" :"reseaux de neurones",
+				r"s(é|e)mantique( des textes)?\b" : "semantique", r"xml|document(s)? structur(é|e)s?\n" : "documents structures",
+				"programmation objet" : "java", r"(traitements? )?statistiques?( de corpus)?" : "statistiques"}
+
+corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
 
 @bot.command(name = 'devoirs')
 async def infos_cours(ctx, niv=None, mat=None):
