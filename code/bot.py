@@ -1,4 +1,15 @@
-# Bot Discord
+'''
+Bot Discord pour le serveur Plurital 
+
+Utile :
+- Donne des informations sur les devoirs des différentes sections
+- Génère la documentation d'un langage de programmation
+
+Divertissant :
+- Propose des jeux (quiz, anagramme)
+
+Et bien sûr, envoie des gifs !
+'''
 
 # -*- coding: utf-8 -*-
 
@@ -18,25 +29,29 @@ api = giphy_client.DefaultApi()
 
 async def search_gifs(keyword):
 	'''
+	Fonction pour rechercher des gifs dans la base Giphy
+	Arg : 'keyword' -> le mot-clé qui servira à trouver un gif pertinent
+	Renvoie le lien d'un gif sélectionné au hasard parmi les + pertinents
 	'''
-	#on recherche les gifs les + pertinents dans la base Giphy en fonction du mot-clé
 	result = api.gifs_search_get(giphy_token, keyword, limit=5, rating='g')
 	result_list = list(result.data)
-
-	#un gif sera sélectionné au hasard parmi les plus pertinents
 	gif = random.choices(result_list)
 	return gif[0].url
 
-with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
-	devoirs = yaml.safe_load(stream)
+#stockage des données pour les devoirs et la doc. cpp
+with open("files/devoirs.yaml", 'r', encoding="utf-8") as fic_dev:
+	devoirs = yaml.safe_load(fic_dev)
 
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
-requete = RequeteCommande(mode="")
+#initialisation d'un objet RequeteCommande
+requete = RequeteCommande(mode = "")
 
+#initialisation d'une liste de jeux
 list_games = []
 
+#initialisation des objets représentant les jeux et chargement des données pour ces jeux
 quiz = Quiz()
 quiz.add_questions("files/quiz")
 list_games.append(quiz)
@@ -45,10 +60,12 @@ anagram = Anagram()
 anagram.add_voc_anag("files/mots.txt")
 list_games.append(anagram)
 
+#on établit qu'une commande adressée au bot doit commencer par !
 bot = Bot(command_prefix = '!')
 
 #-------------------------
 
+#Suppression de la commande 'help' par défaut (pour pouvoir la personnaliser)
 bot.remove_command('help')
 
 help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\
@@ -65,6 +82,13 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 
 @bot.command(name = 'help')
 async def help_bot(ctx, commande = None):
+		'''
+		Fonction associée à la commande !help
+		Arg : 'commande' (None par défaut) 
+
+		Affiche les consignes pour l'utilisation du bot 
+		-> les consignes d'une commande si elle est précisée, sinon toutes les consignes
+		'''
 		if commande :
 			try :
 				await ctx.send(help_dict[commande])
@@ -82,7 +106,7 @@ async def help_bot(ctx, commande = None):
 
 #------------------------------
 
-
+#dictionnaires de correspondances pour les matières et les niveaux (regex)
 corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte",
 				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
 				r"calcul(abilit(é|e))?\b" : "calculabilite", r"r(é|e)seau(x)?( de neurone(s)?)?\b" :"reseaux de neurones",
@@ -93,14 +117,25 @@ corres_niv = {r"m(aster)?\s?1" : "m1", r"m(aster)?\s?2" : "m2"}
 
 @bot.command(name = 'devoirs')
 async def infos_cours(ctx, niv=None, mat=None):
+	'''
+	Fonction associée à la commande !devoirs
+	Affiche les informations disponibles (devoirs/partiels/projets) pour un niveau et une matière
+	(s'ils sont spécifiés et présents dans les données)
 
+	-> Si aucun argument : affiche les consignes pour la commande !devoirs
+	-> Si seul le niveau est précisé : affiche les matières de ce niveau et rappelle les consignes de la commande
+	(si le niveau n'est pas dans la base : rappelle les consignes et affiche les niveaux disponibles)
+	-> Si le niveau et la matière sont précisés : affiche les devoirs (s'il y en a)
+	(si le niveau n'est pas dans la base : rappelle les consignes et affiche les niveaux disponibles ;
+	si la matière n'est pas dans la base : rappelle les consignes et affiche les matières disponibles)
+	'''
 	if not niv and not mat :
 		await ctx.send(help_dict['devoirs'])
 
 	elif niv :
 		niv = niv.lower()
 		for exp in corres_niv :
-			if re.search(exp,niv) :
+			if re.search(exp, niv) :
 				niv = corres_niv[exp]
 		if niv in devoirs :
 			if devoirs[niv] == None :
@@ -109,7 +144,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 			elif mat :
 				mat = mat.lower()
 				for exp in corres_mat :
-					if re.search(exp,mat) :
+					if re.search(exp, mat) :
 						mat = corres_mat[exp]
 				if mat in devoirs[niv] :
 					if devoirs[niv][mat] == None :
@@ -126,10 +161,19 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 #------------------------------
 
+#dictionnaire de correspondances pour les noms des jeux
 corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
 
 @bot.command(name = 'anag')
-async def anag_game(ctx):
+async def anag_game(ctx) :
+	'''
+	Fonction associée à la commande !anag
+	-> La commande lance le jeu "anagram" (un anagramme est proposé, il faut retrouver le mot original)
+	Si le jeu est déjà en cours : rappelle l'anagramme en cours
+	Sinon : génère et affiche un nouvel anagramme
+
+	(Voir games.py)
+	'''
 	if anagram.on == True :
 		await ctx.send(f"Déjà en cours : de quel mot >>> {anagram.anag} <<< est-il l'anagramme ?")
 	else :
@@ -137,8 +181,21 @@ async def anag_game(ctx):
 		anagram.create_anag()
 		await ctx.send(f"Anagramme :   :arrow_right:   {anagram.anag}   :arrow_left:	 Quel est le mot original ?")
 
-@bot.command(name='quiz')
+@bot.command(name = 'quiz')
 async def quiz_game(ctx, theme=None):
+	'''
+	Fonction associée à la commande !quiz
+	Arg : 'theme' (None par défaut)
+
+	-> La commande lance le jeu "quiz" (une question est affichée, il faut trouver la réponse)
+	Si le jeu est déjà en cours : rappelle la question en cours
+	Sinon : génère et affiche une nouvelle question
+
+	Si un thème est précisé, génère et affiche une question de ce thème 
+		-> Si le thème n'est pas dans la base, affiche les thèmes disponibles
+
+	(Voir games.py)
+	'''
 	if quiz.on == True :
 		await ctx.send(f"Déjà en cours ! Question : {quiz.question}")
 	else :
@@ -157,9 +214,26 @@ async def quiz_game(ctx, theme=None):
 			await ctx.send(f"Question : {quiz.question}")
 
 @bot.command(name = 'scores')
-async def scores(ctx, game=None) :
+async def scores(ctx, game = None) :
+	'''
+	Fonction associée à la commande !scores
+	Arg : 'game' (None par défaut)
+	
+	Affiche les scores :
+	-> d'un jeu spécifique s'il est précisé en argument,
+	-> de tous les jeux sinon
 
+	Si l'arg. ne correspond pas à un jeu disponible, rappelle les consignes de la commande
+
+	(Voir games.py)
+	'''
 	def print_scores(one_game) :
+		'''
+		Sous-fonction qui définit les messages à afficher pour les scores d'un jeu
+		Arg : 'one_game', le nom d'un jeu 
+		Renvoie une chaîne correspondant au message à afficher 
+		(Les scores de chaque joueur si le jeu est dans la base, les consignes de la commande sinon)
+		'''
 		to_print = ""
 		if one_game.scores == {} :
 			to_print = f"Aucun score enregistré pour le jeu > {game.name} < ! Lancez-le vite : :arrow_right: {game.start} :arrow_left:"
@@ -175,7 +249,7 @@ async def scores(ctx, game=None) :
 	else :
 		game = game.lower()
 		for game_re in corres_games :
-			if re.search(game_re,str(game)) :
+			if re.search(game_re, str(game)) :
 				game = corres_games[game_re]
 
 		if game in list_games :
@@ -188,8 +262,15 @@ async def scores(ctx, game=None) :
 #------------------------------
 
 @bot.command(name = 'cpp')
-async def get_cpp(ctx, com=None, type_inf=None):
+async def get_cpp(ctx, com = None, type_inf = None):
+	'''
+	Fonction associée à la commande !cpp
+	Genère et affiche la documentation du langage C++ 
 
+	Arg : 'com' (None par défaut), 'type_inf' (None par défaut)
+
+	(Voir requeteCode.py)
+	'''
 	if com :
 		commande = com.lower()
 		global requete
@@ -199,16 +280,23 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			for message in requete.message.responses :
 				await ctx.send(message)
 		except ValueError :
-			await help_bot(ctx,"cpp")
+			await help_bot(ctx, "cpp")
 	else :
-		await help_bot(ctx,"cpp")
+		await help_bot(ctx, "cpp")
 
 #--------------------------
 @bot.event
+async def on_message(message) :
+	'''
+	Fonction qui permet au bot d'analyser les messages du serveur (hors commandes) 
+	Arg : 'message' -> chaque message du serveur
 
-async def on_message(message):
+	Permet de reconnaître les réponses justes des jeux, 
+	d'afficher un message pour les gagnants (avec un petit gif) et d'augmenter leurs scores
+	'''
 
-	if message.author.bot:
+	#le bot ne prend pas en compte les messages des autres bots
+	if message.author.bot :
 		return
 
 	for game in list_games :
@@ -224,19 +312,20 @@ async def on_message(message):
 		if message.content.rstrip().isdigit():
 			try :
 				if requete.mode == "cpp" :
-					commande = requete.choices[int(message.content)-1]
+					commande = requete.choices[int(message.content) - 1]
 					await get_cpp(message.channel, commande, requete.request_memory)
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		if "next" in message.content :
 			if requete.display_start < requete.choices_nb :
-				requete.display_start = requete.display_start+20
-				list_results = '\n'.join([str(requete.choices.index(resultat)+1)+' - '+resultat for resultat in requete.choices[requete.display_start:requete.display_start+20]])
+				requete.display_start = requete.display_start + 20
+				list_results = '\n'.join([str(requete.choices.index(resultat) + 1) + ' - ' + resultat for resultat in requete.choices[requete.display_start:requete.display_start + 20]])
 				await message.channel.send(f"suite commandes :  \n{list_results}")
-				if requete.choices_nb > requete.display_start+20 :
+				if requete.choices_nb > requete.display_start + 20 :
 					await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
 
-
+	#ligne qui permet de faire fonctionner le bloc précédé de @bot.event ET les blocs précédés de @bot.command 
 	await bot.process_commands(message)
 
+#lancement du bot
 bot.run(discord_token)

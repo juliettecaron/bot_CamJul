@@ -1,3 +1,8 @@
+'''
+Classes
+'''
+
+# -*- coding: utf-8 -*-
 
 import numpy
 
@@ -21,7 +26,7 @@ def levenshtein(token1, token2):
 
     for t1 in range(1, len(token1) + 1):
         for t2 in range(1, len(token2) + 1):
-            if (token1[t1-1] == token2[t2-1]):
+            if (token1[t1 - 1] == token2[t2 - 1]):
                 distances[t1][t2] = distances[t1 - 1][t2 - 1]
             else:
                 a = distances[t1][t2 - 1]
@@ -81,9 +86,9 @@ class RequeteCommande(object) :
         commande : nom de la commandes
         type_info : infos précises rechercher (parametres, exemple etc...)
         '''
-        if commande in bdd:
+        if commande in bdd :
             # pas d'info précise, retourne la description de la commande
-            if not type_inf:
+            if not type_inf :
                 descr = bdd[commande]['description']['texte']
                 self.message_responses.append(f"{commande} :\n{descr}")
                 try :
@@ -128,7 +133,7 @@ class RequeteCommande(object) :
 
             #s'il existe des commandes proches
             if self.choices_nb != 0 :
-                list_results = '\n'.join([str(self.choices.index(resultat)+1)+' - '+resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
+                list_results = '\n'.join([str(self.choices.index(resultat) + 1) + ' - ' + resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
                 if self.choices_nb > 20 :
                     self.message_responses.append("(répondez \"next\" pour voir les autres résultats)")
