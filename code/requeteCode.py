@@ -12,7 +12,7 @@ class RequeteCommande(object) :
     def get_matching_list(self, commande, liste_commandes) :
         return []
 
-    def lancer_requete(self, bdd, com, type_inf) :
+    def lancer_requete(self, bdd, commande, type_inf) :
         if commande in bdd:
             if not type_inf:
                 descr = bdd[commande]['description']['texte']
