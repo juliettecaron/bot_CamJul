@@ -7,6 +7,7 @@ import giphy_client
 import re
 import json
 import os
+from requeteCode import *
 from games import *
 
 discord_token = os.getenv('DISCORD_TOKEN')
