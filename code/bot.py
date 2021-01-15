@@ -196,7 +196,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 		requete = RequeteCommande(mode = "cpp")
 		try :
 			requete.lancer_requete(doc_cpp, com, type_inf)
-			for message in requete.message_reponses :
+			for message in requete.message.responses :
 				await ctx.send(message)
 		except ValueError :
 			await help_bot(ctx,"cpp")
