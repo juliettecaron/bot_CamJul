@@ -181,8 +181,10 @@ async def get_cpp(ctx, com=None, type_inf=None):
 
 		else :
 			resultats = get_matching_list(commande, doc_cpp.keys())
-			if len(resultats) != 0:
-			await ctx.send(f"input :")
+			if len(resultats) != 0 :
+				await ctx.send(f"Aucun match, vouliez-vous dire : ")
+			else :
+				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
 #--------------------------
 @bot.event
 async def on_message(message):
