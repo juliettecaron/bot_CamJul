@@ -195,7 +195,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 	if com :
 		commande = com.lower()
 		requete = RequeteCommande(mode = "cpp")
-		try
+		try :
 			requete.lancer_requete(doc_cpp, com, type_inf)
 			for message in requete.message_reponses :
 				await ctx.send(message)
