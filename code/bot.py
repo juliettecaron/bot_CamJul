@@ -199,8 +199,6 @@ async def get_cpp(ctx, com=None, type_inf=None):
 	if com :
 		commande = com.lower()
 		if commande in doc_cpp:
-			await ctx.send("niveau 1 OK")
-
 			if not type_inf:
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
 			else :
@@ -229,7 +227,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			else :
 				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
 	else :
-		await ctx.send(help_cpp)
+		await help_bot("cpp")
 
 @bot.command(name = 'python')
 async def get_python(ctx, com=None, type_inf=None):
