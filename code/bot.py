@@ -219,7 +219,7 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	if message.content.isdigit() :
+	if message.content.rstrip().isdigit() :
 		await ctx.send("niveau0 OK")
 		try :
 			await ctx.send("niveau1 OK")
@@ -232,7 +232,7 @@ async def on_message(message):
 					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		except (UnboundLocalError, NameError): #si requete n'a pas été créé
 			pass
-			
+
 	await bot.process_commands(message)
 
 bot.run(discord_token)
