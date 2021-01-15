@@ -185,7 +185,7 @@ async def scores(ctx, game=None) :
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
-requete = Requete(mode="")
+requete = RequeteCommande(mode="")
 
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
