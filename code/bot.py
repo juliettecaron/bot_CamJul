@@ -190,6 +190,10 @@ async def get_cpp(ctx, com=None, type_inf=None):
 				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
 	else :
 		await ctx.send(help_cpp)
+
+@bot.command(name = 'python')
+async def get_python(ctx, com=None, type_inf=None):
+	get_cpp(ctx, com=None, type_inf=None)
 #--------------------------
 @bot.event
 async def on_message(message):
