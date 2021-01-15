@@ -219,6 +219,7 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
+	await ctx.send(message.content)
 	if message.content.rstrip().isdigit() :
 		await ctx.send("niveau0 OK")
 		try :
