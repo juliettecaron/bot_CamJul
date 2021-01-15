@@ -18,7 +18,7 @@ bot = Bot(command_prefix = '!')
 api = giphy_client.DefaultApi()
 
 help_devoirs = "Utilisation du bot : \n- Pour des informations sur les matières/devoirs : !devoirs <niveau> <matiere>"
-help_cpp = "Utilisation du bot : \n- Pour chercher une commande cpp : !cpp <nom_commande> opt( 'parametres' | 'exemple' | <nom_du_parametre> )"
+help_cpp = "Utilisation du bot : \n- Pour chercher une commande cpp : !cpp <nom_commande> opt( 'parametres' | 'exemple' )"
 
 with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 	devoirs = yaml.safe_load(stream)
@@ -164,19 +164,19 @@ async def get_cpp(ctx, com=None, type_inf=None):
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
 			else :
 				type_info = type_inf.lower()
-				if type_info == "exemple":
+				if type_info == "exemple" :
 					input = doc_cpp[commande]['exemple']['input']
 					output = doc_cpp[commande]['exemple']['output']
 					await ctx.send(f"input :")
 					await ctx.send(display_code(input, "cpp"))
-					try
+					try :
 						output = doc_cpp[commande]['exemple']['output']
 						await ctx.send(f"output :")
 						await ctx.send(display_code(output, "cpp"))
 					except (KeyError):
 						await ctx.send(f"Pas d'output précisé.")
 
-				if type_info == "parametres":
+				if type_info == "parametres" :
 					await ctx.send(f"{doc_cpp[commande]['parametres']}}")
 
 		else :
