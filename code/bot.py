@@ -188,49 +188,18 @@ def get_matching_list(commande, liste_commande):
 	liste = []
 	return liste
 
-def display_code(code, langage):
-	return f"```{langage}\n{code}\n```"
-
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
 
 	if com :
 		commande = com.lower()
-		if commande in doc_cpp:
-			if not type_inf:
-				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
-				try :
-					await ctx.send(display_code(doc_cpp[commande]['description']['code'], "cpp"))
-				except (KeyError):
-					pass
-			else :
-				type_info = type_inf.lower()
-				if type_info == "exemple" :
-					try :
-						input = doc_cpp[commande]['exemple']['input']
-						await ctx.send(f"input :")
-						await ctx.send(display_code(input, "cpp"))
-						try :
-							output = doc_cpp[commande]['exemple']['output']
-							await ctx.send(f"output :")
-							await ctx.send(display_code(output, "cpp"))
-						except (KeyError):
-							await ctx.send(f"Pas d'output précisé.")
-					except (KeyError):
-						await ctx.send(f"Pas d'exemple la commande {commande}.")
-
-				if type_info == "parametres" :
-					try :
-						await ctx.send(f"{doc_cpp[commande]['parametres']}")
-					except (KeyError) :
-						await ctx.send(f"Pas de paramètre pour la commande : {commande}")
-
-		else :
-			resultats = get_matching_list(commande, doc_cpp.keys())
-			if len(resultats) != 0 :
-				await ctx.send(f"Aucun match, vouliez-vous dire : ")
-			else :
-				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
+		requete = RequeteCommande(mode = "cpp")
+		try
+			requete.lancer_requete(doc_cpp, com, type_inf)
+			for message in requete.message_reponses :
+				await ctx.send(message)
+		except ValueError :
+			await help_bot(ctx,"cpp")
 	else :
 		await help_bot(ctx,"cpp")
 
