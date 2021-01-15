@@ -167,7 +167,6 @@ async def get_cpp(ctx, com=None, type_inf=None):
 				type_info = type_inf.lower()
 				if type_info == "exemple" :
 					input = doc_cpp[commande]['exemple']['input']
-					output = doc_cpp[commande]['exemple']['output']
 					await ctx.send(f"input :")
 					await ctx.send(display_code(input, "cpp"))
 					try :
@@ -186,6 +185,8 @@ async def get_cpp(ctx, com=None, type_inf=None):
 				await ctx.send(f"Aucun match, vouliez-vous dire : ")
 			else :
 				await ctx.send(f"Commande complètement inconnue ! On a tous nos failles...")
+	else :
+		await ctx.send(help_cpp)
 #--------------------------
 @bot.event
 async def on_message(message):
