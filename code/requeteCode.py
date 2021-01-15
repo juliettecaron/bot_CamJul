@@ -101,7 +101,7 @@ class RequeteCommande(object) :
                     raise ValueError
         else :
             self.choix = self.get_matching_list(commande, bdd.keys())
-            if len(resultats) != 0 :
+            if len(self.choix) != 0 :
                 self.nb_choix = len(self.choix)
                 liste_numerotee = '\n'.join([str(self.choix.index(resultat)+1)+' - '+resultat for resultat in self.choix[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee}")
