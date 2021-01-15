@@ -204,13 +204,10 @@ async def get_cpp(ctx, com=None, type_inf=None):
 	else :
 		await help_bot(ctx,"cpp")
 
-@bot.command(name = 'python')
-async def get_python(ctx, com=None, type_inf=None):
-	await get_cpp(ctx, com=None, type_inf=None)
-
 #--------------------------
 @bot.event
 async def on_message(message):
+
 	if message.author.bot:
 		return
 
@@ -223,6 +220,12 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
+	if requete.choix_on :
+		if message.content.isdigit():
+			try :
+				requete = RequeteCommande(requete.mode, requete.choix[int(message.content)-1], requete.memoire_requete)
+			except IndexError :
+				await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 	await bot.process_commands(message)
 
 bot.run(discord_token)
