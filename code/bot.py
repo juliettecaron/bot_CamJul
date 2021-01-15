@@ -200,7 +200,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			for message in requete.message_reponses :
 				await ctx.send(message)
 		except ValueError :
-			await help_bot(ctx,"cpp")
+			await ctx.send("erreur argument2")
 	else :
 		await help_bot(ctx,"cpp")
 
