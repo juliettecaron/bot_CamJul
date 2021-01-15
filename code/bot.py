@@ -229,11 +229,12 @@ async def on_message(message):
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		if "next" in message.content :
-			requete.display_start = requete.display_start+20
-			list_results = '\n'.join([str(requete.choices.index(resultat)+1)+' - '+resultat for resultat in requete.choices[requete.display_start:requete.display_start+20]])
-			await message.channel.send(f"suite commandes :  \n{list_results}")
-			if requete.choices_nb > requete.display_start+20 :
-				await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
+			if requete.display_start < requete.choices_nb :
+				requete.display_start = requete.display_start+20
+				list_results = '\n'.join([str(requete.choices.index(resultat)+1)+' - '+resultat for resultat in requete.choices[requete.display_start:requete.display_start+20]])
+				await message.channel.send(f"suite commandes :  \n{list_results}")
+				if requete.choices_nb > requete.display_start+20 :
+					await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
 
 
 	await bot.process_commands(message)

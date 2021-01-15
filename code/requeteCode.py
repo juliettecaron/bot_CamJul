@@ -2,6 +2,11 @@
 import numpy
 
 def levenshtein(token1, token2):
+    '''
+    Calcule la distance de levenshtein entre 2 tokens (token1, token2)
+    renvoie la distance
+    @credit https://blog.paperspace.com/implementing-levenshtein-distance-word-autocomplete-autocorrect/
+    '''
     distances = numpy.zeros((len(token1) + 1, len(token2) + 1))
 
     for t1 in range(len(token1) + 1):
@@ -77,6 +82,7 @@ class RequeteCommande(object) :
         type_info : infos précises rechercher (parametres, exemple etc...)
         '''
         if commande in bdd:
+            # pas d'info précise, retourne la description de la commande
             if not type_inf:
                 descr = bdd[commande]['description']['texte']
                 self.message_responses.append(f"{commande} :\n{descr}")
@@ -85,6 +91,8 @@ class RequeteCommande(object) :
                     self.message_responses.append(self.display_code(code_descr, self.mode))
                 except (KeyError):
                     pass
+
+            # info précise demandée
             else :
                 type_info = type_inf.lower()
 
@@ -110,15 +118,24 @@ class RequeteCommande(object) :
 
                 else :
                     raise ValueError
+
+        #cas de la commande non trouvée dans la bdd  :
+        # on cherche s'il y a des commandes proches, puis on les propose
+        # (20 à la fois si trop de résultats à cause de la limite discord)
         else :
             self.choices = self.get_matching_list(commande, bdd.keys())
             self.choices_nb = len(self.choices)
+
+            #s'il existe des commandes proches
             if self.choices_nb != 0 :
                 list_results = '\n'.join([str(self.choices.index(resultat)+1)+' - '+resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
                 if self.choices_nb > 20 :
                     self.message_responses.append("(répondez \"next\" pour voir les autres résultats)")
                 self.choices_on = True
-                self.request_memory = type_inf
+                self.request_memory = type_inf #sauvegarder le type d'info demandé
+                #(pour si l'utilisateur choisit une commande parmi celles trouvées)
+
+            #s'il n'existe pas de commandes proches
             else :
                 self.message_responses.append(f"Commande complètement inconnue ! On a tous nos failles...")
