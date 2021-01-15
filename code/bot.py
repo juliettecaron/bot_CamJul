@@ -218,9 +218,12 @@ async def on_message(message):
 
 	try :
 		if requete.choix_on :
+			await ctx.send("niveau1 OK")
 			if message.content.isdigit():
+				await ctx.send("NIVEAU 2 OK")
 				try :
-					requete = RequeteCommande(requete.mode, requete.choix[int(message.content)-1], requete.memoire_requete)
+					if requete.mode == cpp :
+						await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
 				except IndexError :
 					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 	except UnboundLocalError: #si requete n'a pas été créé
