@@ -37,9 +37,11 @@ class RequeteCommande(object) :
     def __init__(self, mode) :
         self.choix_on = False
         self.choix = []
+        self.nb_choix = 0
         self.memoire_requete = None
         self.message_reponses = []
         self.mode = mode
+        self.display_start = 0
 
     def display_code(self, code, langage):
         '''
@@ -98,11 +100,13 @@ class RequeteCommande(object) :
                 else :
                     raise ValueError
         else :
-            resultats = self.get_matching_list(commande, bdd.keys())
+            self.choix = self.get_matching_list(commande, bdd.keys())
             if len(resultats) != 0 :
-                self.choix = resultats
-                liste_numerotee = '\n'.join([str(resultats.index(resultat)+1)+' - '+resultat for resultat in resultats]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
-                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee[0:20]}")
+                self.nb_choix = len(self.choix)
+                liste_numerotee = '\n'.join([str(self.choix.index(resultat)+1)+' - '+resultat for resultat in self.choix[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
+                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee[]}")
+                if nb_choix > 20 :
+                    self.message_reponses.append("(répondez \"next\" pour voir les autres résultats)")
                 self.choix_on = True
                 self.memoire_requete = type_inf
             else :

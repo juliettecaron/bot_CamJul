@@ -220,20 +220,20 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	if message.content.rstrip().isdigit() :
-		await message.channel.send("niveau1 OK")
-		await message.channel.send(requete.choix_on)
-		await message.channel.send("choix : "+repr(requete.choix))
-		await message.channel.send(" mode :"+requete.mode)
-		if requete.choix_on:
-			await message.channel.send("NIVEAU 2 OK")
+	if requete.choix_on :
+		if message.content.rstrip().isdigit():
 			try :
 				if requete.mode == "cpp" :
-					await message.channel.send("NIVEAU 3 OK")
 					commande = requete.choix[int(message.content)-1]
 					await get_cpp(message.channel, commande, requete.memoire_requete)
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
+		if "next" in message.content :
+			requete.display_start = requete.display_start+20
+			liste_numerotee = '\n'.join([str(requete.choix.index(resultat)+1)+' - '+resultat for resultat in requete.choix[requete.display_start:requete.display_start+20]])
+			await message.channel.send(f"suite commandes :  \n{liste_numerotee[]}")
+			if requete.nb_choix > requete.display_start+20 :
+				await message.channel.send("(répondez \"next\" pour voir les autres résultats)")
 
 
 	await bot.process_commands(message)
