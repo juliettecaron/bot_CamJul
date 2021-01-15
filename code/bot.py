@@ -219,18 +219,20 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	try :
-		if requete.choix_on :
+	if message.content.isdigit() :
+		await ctx.send("niveau0 OK")
+		try :
 			await ctx.send("niveau1 OK")
-			if message.content.isdigit():
+			if requete.choix_on:
 				await ctx.send("NIVEAU 2 OK")
 				try :
 					if requete.mode == cpp :
 						await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
 				except IndexError :
 					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
-	except (UnboundLocalError, NameError): #si requete n'a pas été créé
-		pass
+		except (UnboundLocalError, NameError): #si requete n'a pas été créé
+			pass
+			
 	await bot.process_commands(message)
 
 bot.run(discord_token)
