@@ -201,6 +201,8 @@ async def get_cpp(ctx, com=None, type_inf=None):
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
 				try :
 					await ctx.send(display_code([commande]['description']['code'], "cpp"))
+				except (KeyError):
+					pass
 			else :
 				type_info = type_inf.lower()
 				if type_info == "exemple" :
