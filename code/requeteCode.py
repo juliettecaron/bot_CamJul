@@ -55,7 +55,7 @@ class RequeteCommande(object) :
                 liste_match.append(commande)
             else :
                 for fragment in commande.split("::") :
-                    if levenshtein(commande_req, commande) <= 2 :
+                    if levenshtein(commande_req, commande) <= 1 :
                         liste_match.append(commande)
                         break
         return liste_match
@@ -101,8 +101,8 @@ class RequeteCommande(object) :
             resultats = self.get_matching_list(commande, bdd.keys())
             if len(resultats) != 0 :
                 self.choix = resultats
-                liste_numerotee = '\n'.join([str(resultat.index(resultat)+1)+' - '+resultat for resultat in resultats]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
-                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n\{liste_numerotee}")
+                liste_numerotee = '\n'.join([str(resultats.index(resultat)+1)+' - '+resultat for resultat in resultats]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
+                self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{liste_numerotee}")
                 self.choix_on = True
                 self.memoire_requete = type_inf
             else :
