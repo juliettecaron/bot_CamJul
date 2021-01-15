@@ -177,7 +177,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 						await ctx.send(f"Pas d'output précisé.")
 
 				if type_info == "parametres" :
-					await ctx.send(f"{doc_cpp[commande]['parametres']}}")
+					await ctx.send(f"{doc_cpp[commande]['parametres']}")
 
 		else :
 			resultats = get_matching_list(commande, doc_cpp.keys())
