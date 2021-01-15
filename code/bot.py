@@ -76,7 +76,7 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 	\nVous gagnez un point à chaque bonne réponse !\n\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*",
 	"scores" : f":chart_with_upwards_trend: SCORES\n\nPour connaître les scores des jeux !\n\
 	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
-	"cpp" : f":placard: C++\n\n__Commande__ : \n\n**!cpp <commande>** pour une description de la commande (...)\
+	"cpp" : f":placard: C++\n\n__Commande__ : \n\n**!cpp <commande>** pour une description de la commande\
 	\n**!cpp <commande> <parametres>**  pour les paramètres de la commande\
 	\n**!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
 
@@ -330,10 +330,10 @@ async def on_message(message) :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		#si le message est une instruction next
 		elif "next" in message.content :
+			requete.display_start = requete.display_start + 20
 			#s'il reste des commandes proches à afficher
 			if requete.display_start < requete.choices_nb :
 				#afficher les 20 prochaines commandes (ou moins si il en reste moins de 20)
-				requete.display_start = requete.display_start + 20
 				list_results = '\n'.join([str(requete.choices.index(resultat) + 1) + ' - ' + resultat for resultat in requete.choices[requete.display_start:requete.display_start + 20]])
 				await message.channel.send(f"suite commandes :  \n{list_results}")
 				if requete.choices_nb > requete.display_start + 20 :
