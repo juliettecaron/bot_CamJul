@@ -151,7 +151,7 @@ def get_matching_list(commande, liste_commande):
 	return liste
 
 def display_code(code, langage):
-	return f"```{langage} \n{commande}\n```"
+	return f"```{langage} \n{code}\n```"
 
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
@@ -159,6 +159,7 @@ async def get_cpp(ctx, com=None, type_inf=None):
 	if com :
 		commande = com.lower()
 		if commande in doc_cpp:
+			await ctx.send("niveau 1 OK")
 
 			if not type_inf:
 				await ctx.send(f"{commande} : {doc_cpp[commande]['description']['texte']}")
