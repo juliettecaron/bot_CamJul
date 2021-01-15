@@ -63,7 +63,7 @@ class RequeteCommande(object) :
                 self.message_reponses.append(f"{commande} :\n{descr}")
                 try :
                     code_descr = bdd[commande]['description']['code']
-                    self.message_reponses.append(self.display_code(code_descr, mode))
+                    self.message_reponses.append(self.display_code(code_descr, self.mode))
                 except (KeyError):
                     pass
             else :
@@ -79,11 +79,11 @@ class RequeteCommande(object) :
                     try :
                         input = bdd[commande]['exemple']['input']
                         self.message_reponses.append(f"input :")
-                        self.message_reponses.append(self.display_code(input, mode))
+                        self.message_reponses.append(self.display_code(input, self.mode))
                         try :
                             output = bdd[commande]['exemple']['output']
                             self.message_reponses.append(f"output :")
-                            self.message_reponses.append(self.display_code(output, mode))
+                            self.message_reponses.append(self.display_code(output, self.mode))
                         except (KeyError):
                             self.message_reponses.append(f"Pas d'output précisé.")
                     except (KeyError):
