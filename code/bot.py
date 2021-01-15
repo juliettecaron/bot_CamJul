@@ -59,9 +59,9 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 	\nVous gagnez un point à chaque bonne réponse !\n\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*",
 	"scores" : f":chart_with_upwards_trend: SCORES\n\nPour connaître les scores des jeux !\n\
 	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
-	"cpp" : f":placard: C++\n\n__Commande__ : **!cpp <commande>** pour une description de la commande (...)\n\
-	\n         **!cpp <commande> <parametres>**  pour les paramètres de la commande\
-	\n         **!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
+	"cpp" : f":placard: C++\n\n__Commande__ : \n**!cpp <commande>** pour une description de la commande (...)\n\
+	\n **!cpp <commande> <parametres>**  pour les paramètres de la commande\
+	\n **!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
 
 @bot.command(name = 'help')
 async def help_bot(ctx, commande = None):
@@ -228,7 +228,7 @@ async def on_message(message):
 		if requete.choix_on:
 			await message.channel.send("NIVEAU 2 OK")
 			try :
-				if requete.mode == cpp :
+				if requete.mode == "cpp" :
 					await message.channel.send("NIVEAU 3 OK")
 					await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
 			except IndexError :
