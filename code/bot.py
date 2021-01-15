@@ -185,10 +185,6 @@ async def scores(ctx, game=None) :
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
-def get_matching_list(commande, liste_commande):
-	liste = []
-	return liste
-
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
 
@@ -220,12 +216,15 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	if requete.choix_on :
-		if message.content.isdigit():
-			try :
-				requete = RequeteCommande(requete.mode, requete.choix[int(message.content)-1], requete.memoire_requete)
-			except IndexError :
-				await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
+	try :
+		if requete.choix_on :
+			if message.content.isdigit():
+				try :
+					requete = RequeteCommande(requete.mode, requete.choix[int(message.content)-1], requete.memoire_requete)
+				except IndexError :
+					await ctx.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
+	except UnboundLocalError: #si requete n'a pas été créé
+		pass
 	await bot.process_commands(message)
 
 bot.run(discord_token)
