@@ -1,30 +1,37 @@
 
 import numpy as np
 
-def levenshtein(seq1, seq2):
-    size_x = len(seq1) + 1
-    size_y = len(seq2) + 1
-    matrix = np.zeros ((size_x, size_y))
-    for x in xrange(size_x):
-        matrix [x, 0] = x
-    for y in xrange(size_y):
-        matrix [0, y] = y
+def levenshtein(token1, token2):
+    distances = numpy.zeros((len(token1) + 1, len(token2) + 1))
 
-    for x in xrange(1, size_x):
-        for y in xrange(1, size_y):
-            if seq1[x-1] == seq2[y-1]:
-                matrix [x,y] = min(
-                    matrix[x-1, y] + 1,
-                    matrix[x-1, y-1],
-                    matrix[x, y-1] + 1
-                )
+    for t1 in range(len(token1) + 1):
+        distances[t1][0] = t1
+
+    for t2 in range(len(token2) + 1):
+        distances[0][t2] = t2
+
+    a = 0
+    b = 0
+    c = 0
+
+    for t1 in range(1, len(token1) + 1):
+        for t2 in range(1, len(token2) + 1):
+            if (token1[t1-1] == token2[t2-1]):
+                distances[t1][t2] = distances[t1 - 1][t2 - 1]
             else:
-                matrix [x,y] = min(
-                    matrix[x-1,y] + 1,
-                    matrix[x-1,y-1] + 1,
-                    matrix[x,y-1] + 1
-                )
-    return (matrix[size_x - 1, size_y - 1])
+                a = distances[t1][t2 - 1]
+                b = distances[t1 - 1][t2]
+                c = distances[t1 - 1][t2 - 1]
+
+                if (a <= b and a <= c):
+                    distances[t1][t2] = a + 1
+                elif (b <= a and b <= c):
+                    distances[t1][t2] = b + 1
+                else:
+                    distances[t1][t2] = c + 1
+
+    printDistances(distances, len(token1), len(token2))
+    return distances[len(token1)][len(token2)]
 
 class RequeteCommande(object) :
 
