@@ -50,8 +50,6 @@ async def infos_cours(ctx, niv=None, mat=None):
 		if niv in devoirs :
 			if devoirs[niv] == None :
 				await ctx.send(f"Aucune matière enregistrée pour le niveau {niv} (pour le moment !)\n\n{help_devoirs}")
-				gif = await search_gifs("oops")
-				await ctx.send(gif)
 
 			elif mat :
 				mat = mat.lower()
@@ -128,7 +126,6 @@ async def scores(ctx, game=None) :
 		return to_print
 
 	if not game :
-		print(anagram.scores.most_common())
 		for game in list_games :
 			await ctx.send(print_scores(game))
 	else :
