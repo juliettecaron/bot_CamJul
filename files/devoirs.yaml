@@ -1,11 +1,11 @@
 m1 :
 m2 : 
-    statistiques :
-    semantique :
     lexicologie :
-        15/12/2020 : questions de cours (voir pdf sur github) et bouts de codes à compléter              
+        15/12/2020 : Questions de cours (voir pdf sur github) et bouts de codes à compléter              
     modelisation :
-        04/01/2021 : > 
+        04/01/2021 : >
+                        Projet :
+
                         1) Choisir un corpus avec une langue de votre choix (française ou anglaise) et faire une petite description sur ce corpus. 
                         2) Utiliser l’outil Termostat pour l’extraction et l’étiquetage morpho-syntaxique des termes présents dans le texte. Rappel du lien Termostat : http://termostat.ling.umontreal.ca/index.php
                         3) Écrire un programme python utilisant le module nltk permettant l’étiquetage morpho-syntaxique du texte. Afficher à chaque fois le résultat sous forme d’un arbre.
@@ -30,26 +30,32 @@ m2 :
     langages de script :
         15/01/2021 : >
                         Sujet au choix parmi : 
+
                         - Classifieur : créer un classifieur de documents. Il faudra utiliser plusieurs algorithmes, plusieurs jeux de features et les évaluer.
                         Vous choisissez le jeu de données. Évitez les données en langue anglaise dans la mesure du possible.
                         Si vous n’avez pas d’idées vous pouvez utiliser Wikinews et chercher à retrouver les catégories thématiques d’articles.
                         
-                        Reporting : Reporting sur un channel discord du serveur Plurital.
+                        - Reporting : Reporting sur un channel discord du serveur Plurital.
                         Avec par exemple le nombre participants, le nombre de posts par participants, le nombre de liens/gifs, le nombre de questions, de réponses, etc…
                         Vous devrez générer des graphiques pour présenter les résultats, idéalement dans une page web.
                         
-                        Bot Discord : Proposez un bot pour le serveur Plurital qui puisse offrir des services intéressants et/ou divertissants pour notre communauté.              
+                        - Bot Discord : Proposez un bot pour le serveur Plurital qui puisse offrir des services intéressants et/ou divertissants pour notre communauté.              
     fouille de texte :
     calculabilite :
-        28/12/2020 : test    
-        12/01/2021 : sujet 1 ou 2
+        28/12/2020 : Devoir 2 = Améliorer le code du premier devoir    
+        12/01/2021 : >
+                        Sujet 1 : expliquer le problème de l'arrêt (maximum 2 pages)
+                        Sujet 2 : faire un petit programme
     reseaux de neurones :
+        22/01/2021 : Projet CNN -> récupérer un corpus oral et faire fonctionner un réseau de neurones (exemples -> identifier le locuteur, la langue...)
+    statistiques :
+    semantique :
     documents structures :
-        - 10/01/2021 : >
+        10/01/2021 : >
+                        Projet :
                         L’objectif de ce projet est de réaliser une chaîne de traitement pour la publication de documents en ligne. À partir de documents qui vous seront fournis, vous allez devoir proposer un site web pour présenter le contenu de ces documents et interagir avec.
                         Deux grandes étapes seront mises en œuvre.
                         La première étape consistera à transformer les documents au format OpenDocument en document XML selon le standard de la Text Encoding Initiative (TEI). Pour cela, son schéma vous sera communiqué afin de vous permettre de valider la structure. De plus, un Schematron vous permettra de respecter l’encodage attendu de certaines métadonnées.
                         Une fois cette étape terminée, les documents seront stockés dans une base de données XML (eXist- db). À partir de celle-ci, vous allez devoir réaliser un site internet à l’aide de xquery et xslt. Sur ce site seront présentées trois interfaces : une pour la recherche d’informations dans les documents, une autre pour afficher vos documents mis en page et finalement une page pour présenter le projet."    
     java :
-        12/01/2021 : tessssst
-        12/01/2021 : compléter le package bibliothèque de son GitHub, faire tous les tests + rajouter les méthodes si besoin
+        12/01/2021 : Compléter le package bibliothèque (à récupérer sur GitHub), faire tous les tests et rajouter les méthodes si besoin

@@ -60,7 +60,7 @@ class Anagram(Game) :
         
 	def add_voc_anag(self,fic) : 
 		with open (fic,"r",encoding="utf-8") as voc :
-			self.mots.extend(voc.read().split(','))
+			self.mots.extend(voc.read().split('\n'))
             
 	def create_anag(self) :
 		self.answer = random.choice(self.mots)
