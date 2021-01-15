@@ -23,7 +23,7 @@ help_cpp = "Utilisation du bot : \n- Pour chercher une commande cpp : !cpp <nom_
 with open("files/devoirs.yaml", 'r', encoding="utf-8") as stream:
 	devoirs = yaml.safe_load(stream)
 
-corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte", 
+corres_mat = {r"python\b|(langages? de )?scripts?\b" : "langages de script", r"fouilles?( de textes?)?\b" : "fouille de texte",
 				r"lexico|termino(logie)?" : "lexicologie", r"mod(é|e)l(isation)?s?( des connaissances)?\b" : "modelisation",
 				r"calcul(abilit(é|e))?\b" : "calculabilite", r"r(é|e)seau(x)?( de neurone(s)?)?\b" :"reseaux de neurones",
 				r"s(é|e)mantique( des textes)?\b" : "semantique", r"xml|document(s)? structur(é|e)s?\n" : "documents structures",
@@ -44,7 +44,7 @@ async def search_gifs(keyword):
 list_games = []
 
 quiz = Quiz()
-quiz.add_questions("files/quiz")  
+quiz.add_questions("files/quiz")
 list_games.append(quiz)
 
 anagram = Anagram()
@@ -59,7 +59,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 	elif niv :
 		niv = niv.lower()
-		for exp in corres_niv : 
+		for exp in corres_niv :
 			if re.search(exp,niv) :
 				niv = corres_niv[exp]
 		if niv in devoirs :
@@ -68,7 +68,7 @@ async def infos_cours(ctx, niv=None, mat=None):
 
 			elif mat :
 				mat = mat.lower()
-				for exp in corres_mat : 
+				for exp in corres_mat :
 					if re.search(exp,mat) :
 						mat = corres_mat[exp]
 				if mat in devoirs[niv] :
@@ -81,12 +81,12 @@ async def infos_cours(ctx, niv=None, mat=None):
 							await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
 			else :
 				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
-		else : 
+		else :
 			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help_devoirs}")
 
 
 #------------------------------
-bot.remove_command('help') 
+bot.remove_command('help')
 
 @bot.command(name = 'help')
 async def help_bot(ctx):
@@ -96,8 +96,10 @@ async def help_bot(ctx):
 			\n__Commande__ : **!anag**\n\n:books: QUIZ\n\nLe bot vous pose une question, à vous de trouver la réponse ! Vous gagnez un point à chaque bonne réponse !\n\
 			\n__Commande__ : **!quiz** ou **!quiz <theme>** pour une question sur un thème spécifique\n\n*Thèmes disponibles : {', '.join(quiz.themes)}*\n\n:chart_with_upwards_trend: SCORES\n\
 			\nPour connaître les scores des jeux !\n\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !\n\
-			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\
-			\n__Commande__ : **!** (...)\
+			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\n:placard: C++\n\
+			\n__Commande__ : **!cpp** <commande> pour une description de la commande (...)\n\
+			\n               **!cpp** <commande> <parametres>  pour les paramètres de la commande\
+			\n               **!cpp** <commande> <exemple>  pour un exemple d'utilisation de la commande\
 			\n------------------------------------")
 
 #------------------------------
@@ -106,7 +108,7 @@ corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
 
 @bot.command(name = 'anag')
 async def anag_game(ctx):
-	if anagram.on == True : 
+	if anagram.on == True :
 		await ctx.send(f"Déjà en cours : de quel mot >>> {anagram.anag} <<< est-il l'anagramme ?")
 	else :
 		anagram.on = True
@@ -115,7 +117,7 @@ async def anag_game(ctx):
 
 @bot.command(name='quiz')
 async def quiz_game(ctx, theme=None):
-	if quiz.on == True : 
+	if quiz.on == True :
 		await ctx.send(f"Déjà en cours ! Question : {quiz.question}")
 	else :
 		if theme :
@@ -127,7 +129,7 @@ async def quiz_game(ctx, theme=None):
 			else :
 				await ctx.send(f"Vous ne pouvez pas choisir le thème {theme} !")
 				await ctx.send(f"Thèmes disponibles :  {' :star: '.join(quiz.themes)}")
-		else : 
+		else :
 			quiz.on = True
 			quiz.create_question()
 			await ctx.send(f"Question : {quiz.question}")
@@ -150,13 +152,13 @@ async def scores(ctx, game=None) :
 			await ctx.send(print_scores(game))
 	else :
 		game = game.lower()
-		for game_re in corres_games : 
+		for game_re in corres_games :
 			if re.search(game_re,str(game)) :
 				game = corres_games[game_re]
 
 		if game in list_games :
 			await ctx.send(print_scores(game))
-		else : 
+		else :
 			await ctx.send("Utilisation de la commande : !scores <jeu>\n---------------")
 			await ctx.send(f"Jeux disponibles : :game_die: {' :game_die: '.join([game.name for game in list_games])}")
 			await ctx.send(f"Lancement des jeux : :video_game: {' :video_game: '.join([game.start for game in list_games])}")
@@ -223,7 +225,7 @@ async def on_message(message):
 
 	for game in list_games :
 		if game.on :
-			if game.answer in message.content.lower() : 
+			if game.answer in message.content.lower() :
 				game.on = False
 				game.scores[message.author.name] += 1
 				await message.channel.send(f"Bravo {message.author.name} ! :partying_face:  Score : {game.scores[message.author.name]}")
@@ -232,4 +234,4 @@ async def on_message(message):
 
 	await bot.process_commands(message)
 
-bot.run(discord_token)	
+bot.run(discord_token)
