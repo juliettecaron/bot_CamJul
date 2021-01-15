@@ -81,7 +81,7 @@ quiz.add_questions("files/quiz")
 list_games.append(quiz)
 
 anagram = Anagram()
-anagram.add_voc_anag("../files/mots.txt")
+anagram.add_voc_anag("files/mots.txt")
 list_games.append(anagram)
 
 corres_games = {r"anag(ram(me)?)?s?\b" : anagram, r"quiz+e?\b" : quiz}
