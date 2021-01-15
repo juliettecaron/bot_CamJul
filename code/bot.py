@@ -51,8 +51,8 @@ anagram = Anagram()
 anagram.add_voc_anag("files/mots.txt")
 list_games.append(anagram)
 
-help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\n__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java"
-	"anag" : f":placard: ANAGRAMME\n\nTa mère" }
+help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercices, projets, partiels...)\n\n__Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java",
+	"anag" : f":placard: ANAGRAMME\n\nL'anagramme d'un mot du vocabulaire du TAL vous est proposé, vous devez retrouver le mot original. Vous gagnez un point à chaque fois que vous trouvez un mot !\n\n__Commande__ : **!anag**\n\n:books: QUIZ\n\nLe bot vous pose une question, à vous de trouver la réponse ! Vous gagnez un point à chaque bonne réponse !" }
 
 @bot.command(name = 'devoirs')
 async def infos_cours(ctx, niv=None, mat=None):
