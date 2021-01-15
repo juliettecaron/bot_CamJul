@@ -53,7 +53,7 @@ class RequeteCommande(object) :
         '''
         liste_match = []
         for commande in liste_commandes :
-            if commande_req in commande :
+            if all(token in commande for token in commande_req.split()) :
                 liste_match.append(commande)
             else :
                 for fragment in commande.split("::") :
