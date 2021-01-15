@@ -45,11 +45,17 @@ class RequeteCommande(object) :
 
     def display_code(self, code, langage):
         '''
+        Renvoie une string qui s'affichera comme du code sur discord
+        code : le code à mettre en forme
+        langage : le langage du code
         '''
         return f"```{langage}\n{code}\n```"
 
     def get_matching_list(self, commande_req, liste_commandes) :
         '''
+        Renvoie la liste des commandes proches d'une commande
+        commande_req : commande en entrée
+        liste_commandes : liste de toute les commandes dans lesquelles chercher
         '''
         liste_match = []
         for commande in liste_commandes :
@@ -60,10 +66,15 @@ class RequeteCommande(object) :
                     if levenshtein(commande_req, commande) <= 1 :
                         liste_match.append(commande)
                         break
+
         return liste_match
 
     def lancer_requete(self, bdd, commande, type_inf) :
         '''
+        lance une requête à partir d'une commande
+        bdd : base de données (dict of dict) dans laquelle chercher
+        commande : nom de la commandes
+        type_info : infos précises rechercher (parametres, exemple etc...)
         '''
         if commande in bdd:
             if not type_inf:
@@ -103,7 +114,7 @@ class RequeteCommande(object) :
             self.choices = self.get_matching_list(commande, bdd.keys())
             self.choices_nb = len(self.choices)
             if self.choices_nb != 0 :
-                liste_results = '\n'.join([str(self.choices.index(resultat)+1)+' - '+resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
+                list_results = '\n'.join([str(self.choices.index(resultat)+1)+' - '+resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
                 if self.choices_nb > 20 :
                     self.message_responses.append("(répondez \"next\" pour voir les autres résultats)")
