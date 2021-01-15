@@ -96,7 +96,7 @@ class RequeteCommande(object) :
             if len(resultats) != 0 :
                 self.choix = resultats
                 self.message_reponses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n\
-                {'\n'[str(resultat[index]+1)+' - '+resultat for resultats) ]}")
+                {'\n'.join([str(resultat[index]+1)+' - '+resultat for resultats)])}")
                 self.choix_on = True
                 self.memoire_requete = type_inf
             else :
