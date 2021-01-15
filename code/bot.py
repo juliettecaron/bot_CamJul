@@ -219,13 +219,12 @@ async def on_message(message):
 				gif = await search_gifs("bravo")
 				await message.channel.send(gif)
 
-	await ctx.send(message.content)
 	if message.content.rstrip().isdigit() :
-		await ctx.send("niveau0 OK")
+		await message.channel.send("niveau0 OK")
 		try :
-			await ctx.send("niveau1 OK")
+			await message.channel.send("niveau1 OK")
 			if requete.choix_on:
-				await ctx.send("NIVEAU 2 OK")
+				await message.channel.send("NIVEAU 2 OK")
 				try :
 					if requete.mode == cpp :
 						await get_cpp(ctx, requete.choix[int(message.content)-1], requete.memoire_requete)
