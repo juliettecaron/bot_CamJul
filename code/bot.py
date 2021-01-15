@@ -111,7 +111,7 @@ async def help_bot(ctx, commande = None):
 			{help_dic['quiz']}\n\n\
 			{help_dict['scores']}\n\
 			\n------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\n\
-			{help_dict['cpp']}
+			{help_dict['cpp']}\
 			\n------------------------------------")
 
 #------------------------------
