@@ -217,10 +217,13 @@ async def get_cpp(ctx, com=None, type_inf=None):
 						except (KeyError):
 							await ctx.send(f"Pas d'output précisé.")
 					except (KeyError):
-						await ctx.send(f"Pas d'exemple pour cette commande.")
+						await ctx.send(f"Pas d'exemple la commande {commande}.")
 
 				if type_info == "parametres" :
-					await ctx.send(f"{doc_cpp[commande]['parametres']}")
+					try :
+						await ctx.send(f"{doc_cpp[commande]['parametres']}")
+					except (KeyError) :
+						await ctx.send(f"Pas de paramètre pour la commande : {commande}")
 
 		else :
 			resultats = get_matching_list(commande, doc_cpp.keys())
