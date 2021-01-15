@@ -56,7 +56,7 @@ list_games.append(anagram)
 async def infos_cours(ctx, niv=None, mat=None):
 
 	if not niv and not mat :
-		await ctx.send(help_devoirs)
+		await help_bot(ctx, "devoirs")
 
 	elif niv :
 		niv = niv.lower()
@@ -104,7 +104,11 @@ __Commande__ : **!devoirs <niveau> <matiere>**\n\n__Exemple__ : !devoirs m2 java
 @bot.command(name = 'help')
 async def help_bot(ctx, commande = None):
 		if commande :
-			await ctx.send(help_dict[commande])
+			try :
+				await ctx.send(help_dict[commande])
+			except (KeyError) :
+				ctx.send(f"La commande \"{commande}\" n'existe pas\n\
+				Liste des commandes : !{" / !".join(help_dict.keys())}")
 		else :
 			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: :\n------------------------------------\n\
 		    {help_dict['devoirs']}\n------------------------------------\n:game_die: **JEUX**\n\n\
