@@ -7,7 +7,7 @@ class RequeteCommande(object) :
         self.mode = mode
 
     def display_code(self, code, langage):
-    	return f"```{langage}\n{code}\n```"
+        return f"```{langage}\n{code}\n```"
 
     def get_matching_list(self, commande, liste_commandes) :
         return []
