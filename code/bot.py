@@ -151,7 +151,7 @@ def get_matching_list(commande, liste_commande):
 	return liste
 
 def display_code(code, langage):
-	return f"```{langage} \n{code}\n```"
+	return f"```{langage}\n{code}\n```"
 
 @bot.command(name = 'cpp')
 async def get_cpp(ctx, com=None, type_inf=None):
@@ -166,15 +166,18 @@ async def get_cpp(ctx, com=None, type_inf=None):
 			else :
 				type_info = type_inf.lower()
 				if type_info == "exemple" :
-					input = doc_cpp[commande]['exemple']['input']
-					await ctx.send(f"input :")
-					await ctx.send(display_code(input, "cpp"))
 					try :
-						output = doc_cpp[commande]['exemple']['output']
-						await ctx.send(f"output :")
-						await ctx.send(display_code(output, "cpp"))
+						input = doc_cpp[commande]['exemple']['input']
+						await ctx.send(f"input :")
+						await ctx.send(display_code(input, "cpp"))
+						try :
+							output = doc_cpp[commande]['exemple']['output']
+							await ctx.send(f"output :")
+							await ctx.send(display_code(output, "cpp"))
+						except (KeyError):
+							await ctx.send(f"Pas d'output précisé.")
 					except (KeyError):
-						await ctx.send(f"Pas d'output précisé.")
+						await ctx.send(f"Pas d'exemple pour cette commande.")
 
 				if type_info == "parametres" :
 					await ctx.send(f"{doc_cpp[commande]['parametres']}")
