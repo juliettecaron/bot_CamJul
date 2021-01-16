@@ -1,5 +1,6 @@
 # bot_CamJul
 Bot Discord - Python 2020/2021 - Camille &amp; Juliette
+==
 
 -> Bot Discord pour le serveur Plurital
 
@@ -18,16 +19,16 @@ Quelques commandes pour le tester :
 
 !help
 
-!devoirs m2 python\n
+!devoirs m2 python<br/>
 !devoirs master2
 
-!quiz turing
-!anag
-!scores
+!quiz turing<br/>
+!anag<br/>
+!scores<br/>
 
 !cpp ws exemple
 
-!python property
-!python str.rstrip parametres
-!python sstrip
+!python property<br/>
+!python str.rstrip parametres<br/>
+!python sstrip<br/>
 !python loop
