@@ -80,7 +80,7 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
 	"cpp" : f":placard: C++\n\n__Commande__ : \n\n**!cpp <commande>** pour une description de la commande\
 	\n**!cpp <commande> <parametres>**  pour les paramètres de la commande\
-	\n**!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande",
+	\n**!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande\n",
 	"python" : f":snake: Python\n\n__Commande__ : \n\n**!python <commande>** pour une description de la commande\
 	\n**!python <commande> <parametres>**  pour les paramètres de la commande\
 	\n**!python <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
@@ -100,12 +100,12 @@ async def help_bot(ctx, commande = None):
 			except (KeyError) :
 				await ctx.send(f"La commande \"{commande}\" n'existe pas\nListe des commandes : !{' / !'.join(help_dict.keys())}")
 		else :
-			await ctx.send(f":arrow_right:  UTILISATION DU BOT  :arrow_left: \n----------------------------------------\n\
+			await ctx.send(f":arrow_right:  **UTILISATION DU BOT**  :arrow_left: \n----------------------------------------\n\
 		    \n{help_dict['devoirs']}\n----------------------------------------\n:game_die: **JEUX**\n\
 			\n{help_dict['anag']}\n\
 			\n{help_dict['quiz']}\n\
 			\n{help_dict['scores']}\
-			\n----------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\
+			\n----------------------------------------\n:computer: **DOCUMENTATION**\n\nPour obtenir de la documentation sur différents langages de programmation\n\
 			\n{help_dict['cpp']}\
 			\n{help_dict['python']}\
 			\n----------------------------------------")

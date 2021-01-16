@@ -15,7 +15,7 @@ class Game :
 	Représente un jeu, caractérisé par un nom ('name'), un nom de commande ('start'), 
 	un statut ('on' : en cours = True, sinon False), une réponse ('answer' ; None par défaut),
 	et un dictionnaire Counter() pour stocker les scores des joueurs
-    '''
+	'''
 	def __init__(self) :
 		self.name = ""
 		self.start = ""
@@ -34,7 +34,7 @@ class Quiz(Game) :
 	Caractéristiques supplémentaires : un dictionnaire pour associer une question à une réponse ('question'),
 	une liste de thèmes ('theme'), un dict. pour stocker les questions de chaque thème ('questions_theme'),
 	une variable prévue pour la question en cours ('question')
-    '''
+	'''
 	def __init__(self) :
 		Game.__init__(self)
 		self.name = "quiz"
@@ -86,7 +86,7 @@ class Anagram(Game) :
 
 	Caractéristiques supplémentaires : une liste de mots ('mots') pour les mots originaux,
 	et une variable pour stocker l'anagramme généré à partir d'un mot ('anag')
-    '''
+	'''
 	def __init__(self) :
 		Game.__init__(self)
 		self.name = "anagramme"
