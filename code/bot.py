@@ -15,7 +15,6 @@ Et bien sûr, envoie des gifs !
 
 from discord.ext.commands import Bot
 import giphy_client
-import re
 import json
 import os
 from requeteCode import *
@@ -108,6 +107,7 @@ async def help_bot(ctx, commande = None):
 			\n{help_dict['scores']}\
 			\n----------------------------------------\n:computer: DOCUMENTATION\n\nPour obtenir de la documentation sur différents langages de programmation\n\
 			\n{help_dict['cpp']}\
+			\n{help_dict['python']}\
 			\n----------------------------------------")
 
 #------------------------------
