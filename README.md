@@ -18,7 +18,7 @@ Quelques commandes pour le tester :
 
 !help
 
-!devoirs m2 python
+!devoirs m2 python\n
 !devoirs master2
 
 !quiz turing
