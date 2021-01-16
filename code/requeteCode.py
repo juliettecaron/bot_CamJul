@@ -86,7 +86,7 @@ class RequeteCommande(object) :
             else :
                 delim = "::" if self.mode == "cpp" else "."
                 for fragment in commande.split(delim) :
-                    if levenshtein(commande_req, commande) <= 1 :
+                    if levenshtein(commande_req, fragment) <= 1 :
                         liste_match.append(commande)
                         break
 
