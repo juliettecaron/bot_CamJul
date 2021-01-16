@@ -318,7 +318,7 @@ async def get_cpp(ctx, com = None, type_inf = None):
 		global requete
 		requete = RequeteCommande(mode = "python")
 		try :
-			requete.lancer_requete(doc_python, com, type_inf)
+			requete.lancer_requete(doc_py, com, type_inf)
 			for message in requete.message_responses :
 				await ctx.send(message)
 		except ValueError :
