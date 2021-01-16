@@ -45,6 +45,9 @@ with open("files/devoirs.yaml", 'r', encoding="utf-8") as fic_dev:
 with open("files/docs/cpp.json", 'r', encoding="utf-8") as fic_in:
 	doc_cpp = json.load(fic_in)
 
+with open("files/docs/python.json", 'r', encoding="utf-8") as fic_in:
+	doc_py = json.load(fic_in)
+
 #initialisation d'un objet RequeteCommande
 requete = RequeteCommande(mode = "")
 
@@ -292,6 +295,39 @@ async def get_cpp(ctx, com = None, type_inf = None):
 		await help_bot(ctx, "cpp")
 
 #--------------------------
+
+@bot.command(name = 'python')
+async def get_cpp(ctx, com = None, type_inf = None):
+	'''
+	Fonction associée à la commande !cpp
+	Genère et affiche la documentation du langage C++
+
+	Arg : 'com' - la commande à chercher dans la doc (None par défaut),
+	'type_inf' - l'information précise à chercher, "parametres" ou "exemple" (None par défaut)
+
+	Renvoie le help de !cpp si la commande est mal formée
+	si la commande n'est pas trouvée telle quelle dans la bdd, propose des commandes proches
+	l'utilisateur peut en choisir une en renvoyant son numéro
+
+	Requete effectuée via un objet RequeteCommande
+	(Voir requeteCode.py)
+
+	'''
+	if com :
+		commande = com.lower()
+		global requete
+		requete = RequeteCommande(mode = "python")
+		try :
+			requete.lancer_requete(doc_python, com, type_inf)
+			for message in requete.message_responses :
+				await ctx.send(message)
+		except ValueError :
+			await help_bot(ctx, "cpp")
+	else :
+		await help_bot(ctx, "cpp")
+
+#--------------------------
+
 @bot.event
 async def on_message(message) :
 	'''
