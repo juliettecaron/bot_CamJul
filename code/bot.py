@@ -3,7 +3,7 @@ Bot Discord pour le serveur Plurital
 
 Utile :
 - Donne des informations sur les devoirs des différentes sections
-- Génère la documentation d'un langage de programmation
+- Génère la documentation de langages de programmation (c++, python)
 
 Divertissant :
 - Propose des jeux (quiz, anagramme)
@@ -302,13 +302,13 @@ async def get_cpp(ctx, com = None, type_inf = None):
 @bot.command(name = 'python')
 async def get_python(ctx, com = None, type_inf = None):
 	'''
-	Fonction associée à la commande !cpp
-	Genère et affiche la documentation du langage C++
+	Fonction associée à la commande !python
+	Genère et affiche la documentation du langage Python
 
 	Arg : 'com' - la commande à chercher dans la doc (None par défaut),
 	'type_inf' - l'information précise à chercher, "parametres" ou "exemple" (None par défaut)
 
-	Renvoie le help de !cpp si la commande est mal formée
+	Renvoie le help de !python si la commande est mal formée
 	si la commande n'est pas trouvée telle quelle dans la bdd, propose des commandes proches
 	l'utilisateur peut en choisir une en renvoyant son numéro
 
