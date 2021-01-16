@@ -84,8 +84,8 @@ class RequeteCommande(object) :
             if all(token in commande for token in commande_req.split()) :
                 liste_match.append(commande)
             else :
-                delim = "::" if self.mode == "cpp" else "."
-                for fragment in commande.split(delim) :
+                #delim = "::" if self.mode == "cpp" else "."
+                for fragment in commande.split("::") :
                     if levenshtein(commande_req, commande) <= 1 :
                         liste_match.append(commande)
                         break
@@ -145,13 +145,15 @@ class RequeteCommande(object) :
 
             #s'il existe des commandes proches
             if self.choices_nb != 0 :
+                #afficher les 20 premières (si il y en a + de 20 en tout) commandes proches trouvées
                 list_results = '\n'.join([str(self.choices.index(resultat) + 1) + ' - ' + resultat for resultat in self.choices[0:20]]) #variable créée car le '\n' posait problème dans l'expression fstring qui suit
                 self.message_responses.append(f"Aucun match, vouliez-vous dire (répondez par le numéro de la commande recherchée): \n{list_results}")
                 if self.choices_nb > 20 :
                     self.message_responses.append("(répondez **\"next\"** pour voir les autres résultats)")
+                #activer l'option indiquant qu'un choix est attendu
                 self.choices_on = True
-                self.request_memory = type_inf #sauvegarder le type d'info demandé
-                #(pour si l'utilisateur choisit une commande parmi celles trouvées)
+                #sauvegarder le type d'info demandé (pour si l'utilisateur choisit une commande parmi celles trouvées)
+                self.request_memory = type_inf
 
             #s'il n'existe pas de commandes proches
             else :
