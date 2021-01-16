@@ -26,6 +26,7 @@ Et bien sûr, envoie des gifs !
 !quiz<br/>
 !anag<br/>
 !scores<br/>
+!scores quiz
 
 !cpp ws exemple<br/>
 !cpp forward
