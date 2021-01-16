@@ -15,7 +15,7 @@ Et bien sûr, envoie des gifs !
 
 ---------------------------------------------
 
-Quelques commandes pour le tester :
+_Quelques commandes pour le tester_ :
 
 !help
 
