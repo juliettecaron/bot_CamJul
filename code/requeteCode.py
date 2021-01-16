@@ -84,7 +84,7 @@ class RequeteCommande(object) :
             if all(token in commande for token in commande_req.split()) :
                 liste_match.append(commande)
             else :
-                #delim = "::" if self.mode == "cpp" else "."
+                delim = "::" if self.mode == "cpp" else "."
                 for fragment in commande.split("::") :
                     if levenshtein(commande_req, commande) <= 1 :
                         liste_match.append(commande)
