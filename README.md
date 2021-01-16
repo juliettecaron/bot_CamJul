@@ -21,6 +21,7 @@ Et bien sûr, envoie des gifs !
 
 !devoirs m2 python<br/>
 !devoirs master2
+!devoirs master2 sémantique
 
 !quiz turing<br/>
 !quiz<br/>
