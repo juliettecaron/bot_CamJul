@@ -146,7 +146,6 @@ async def infos_cours(ctx, niv=None, mat=None):
 		if niv in devoirs :
 			if devoirs[niv] == None :
 				await ctx.send(f"Aucune matière enregistrée pour le niveau {niv} (pour le moment !)\n\n{help_dict['devoirs']}")
-
 			elif mat :
 				mat = mat.lower()
 				for exp in corres_mat :
@@ -160,8 +159,10 @@ async def infos_cours(ctx, niv=None, mat=None):
 					else :
 						for dev in devoirs[niv][mat] :
 							await ctx.send(f"Pour le {dev} : {devoirs[niv][mat][dev]}")
+				else :
+					await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
 			else :
-				await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
+					await ctx.send(f"Les matières du niveau {niv} sont :\n {' :star: '.join([dev for dev in devoirs[niv]])}\n\nPour connaître les devoirs, tapez !devoirs {niv} <matiere>")
 		else :
 			await ctx.send(f"Les niveaux disponibles sont : {' :star: '.join([niv for niv in devoirs])}\n\n{help_dict['devoirs']}")
 
