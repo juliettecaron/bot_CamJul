@@ -29,6 +29,7 @@ Et bien sûr, envoie des gifs !
 !cpp ws exemple
 
 !python property<br/>
+!python property parametres<br/>
 !python str.rstrip parametres<br/>
 !python sstrip<br/>
 !python loop
