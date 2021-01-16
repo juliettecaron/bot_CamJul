@@ -81,7 +81,10 @@ help_dict = { "devoirs" : f":calendar: **INFORMATIONS SUR LES DEVOIRS** (exercic
 	\n__Commande__ : **!scores** pour tous les scores, **!scores <jeu>** pour les scores d'un jeu spécifique !",
 	"cpp" : f":placard: C++\n\n__Commande__ : \n\n**!cpp <commande>** pour une description de la commande\
 	\n**!cpp <commande> <parametres>**  pour les paramètres de la commande\
-	\n**!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
+	\n**!cpp <commande> <exemple>**  pour un exemple d'utilisation de la commande",
+	"python" : f":snake: Python\n\n__Commande__ : \n\n**!python <commande>** pour une description de la commande\
+	\n**!python <commande> <parametres>**  pour les paramètres de la commande\
+	\n**!python <commande> <exemple>**  pour un exemple d'utilisation de la commande" }
 
 @bot.command(name = 'help')
 async def help_bot(ctx, commande = None):
@@ -297,7 +300,7 @@ async def get_cpp(ctx, com = None, type_inf = None):
 #--------------------------
 
 @bot.command(name = 'python')
-async def get_cpp(ctx, com = None, type_inf = None):
+async def get_python(ctx, com = None, type_inf = None):
 	'''
 	Fonction associée à la commande !cpp
 	Genère et affiche la documentation du langage C++
@@ -322,9 +325,9 @@ async def get_cpp(ctx, com = None, type_inf = None):
 			for message in requete.message_responses :
 				await ctx.send(message)
 		except ValueError :
-			await help_bot(ctx, "cpp")
+			await help_bot(ctx, "python")
 	else :
-		await help_bot(ctx, "cpp")
+		await help_bot(ctx, "python")
 
 #--------------------------
 
@@ -362,6 +365,8 @@ async def on_message(message) :
 				commande = requete.choices[int(message.content) - 1]
 				if requete.mode == "cpp" :
 					await get_cpp(message.channel, commande, requete.request_memory)
+				elif requete.mode == "python" :
+					await get_python(message.channel, commande, requete.request_memory)
 			except IndexError :
 				await message.channel.send("Ce chiffre ne fait pas partie de la liste des commandes proposées.")
 		#si le message est une instruction next
