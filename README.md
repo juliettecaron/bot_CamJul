@@ -23,10 +23,12 @@ Et bien sûr, envoie des gifs !
 !devoirs master2
 
 !quiz turing<br/>
+!quiz<br/>
 !anag<br/>
 !scores<br/>
 
-!cpp ws exemple
+!cpp ws exemple<br/>
+!cpp forward
 
 !python property<br/>
 !python property parametres<br/>
