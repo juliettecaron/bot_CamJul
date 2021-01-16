@@ -11,3 +11,23 @@ Divertissant :
 - Propose des jeux (quiz, anagramme)
 
 Et bien sûr, envoie des gifs !
+
+---------------------------------------------
+
+Quelques commandes pour le tester :
+
+!help
+
+!devoirs m2 python\n
+!devoirs master2
+
+!quiz turing
+!anag
+!scores
+
+!cpp ws exemple
+
+!python property
+!python str.rstrip parametres
+!python sstrip
+!python loop
