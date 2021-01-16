@@ -20,7 +20,7 @@ Et bien sûr, envoie des gifs !
 !help
 
 !devoirs m2 python<br/>
-!devoirs master2
+!devoirs master2<br/>
 !devoirs master2 sémantique
 
 !quiz turing<br/>
