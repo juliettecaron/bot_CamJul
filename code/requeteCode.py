@@ -46,7 +46,7 @@ def levenshtein(token1, token2):
 class RequeteCommande(object) :
     '''
     Classe RequeteCommande : permet de faire des requêtes sur des bases de
-    données de documentation, et de garder
+    données de documentation
     mode = le langage de la documentation (cpp, python...)
     choices_on = True si des propositions de commandes proches sont en cours (default False)
     choices = les commandes proches
@@ -84,7 +84,8 @@ class RequeteCommande(object) :
             if all(token in commande for token in commande_req.split()) :
                 liste_match.append(commande)
             else :
-                for fragment in commande.split("::") :
+                delim = "::" if self.mode == "cpp" else "."
+                for fragment in commande.split(delim) :
                     if levenshtein(commande_req, commande) <= 1 :
                         liste_match.append(commande)
                         break
@@ -122,7 +123,6 @@ class RequeteCommande(object) :
                 elif type_info == "exemple" :
                     try :
                         input = bdd[commande]['exemple']['input']
-                        self.message_responses.append(f"input :")
                         self.message_responses.append(self.display_code(input, self.mode))
                         try :
                             output = bdd[commande]['exemple']['output']
